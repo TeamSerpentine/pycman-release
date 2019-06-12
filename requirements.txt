@@ -1,0 +1,15 @@
+# The gym[atari] package requires the atari-py module which is difficult to build on windows
+# This can be circumvented by installing with the following command first before installing gym[atari]
+# pip install --no-index -f https://github.com/Kojoley/atari-py/releases atari_py
+gym[atari]
+matplotlib
+numpy
+opencv-python
+pandas
+pillow
+seaborn
+# To enable gpu support to tflearn you should explicitly install tensorflow-gpu
+tensorflow
+tflearn
+psutil
+appJar

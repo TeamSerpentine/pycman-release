@@ -30,7 +30,6 @@ class DataIO:
     def _restore_observation(self, observation):
         """ Restores the difference map to a full observation. """
 
-
         observation = json.loads(observation)
         observation = numpy.array(observation, dtype=numpy.uint8)
 
@@ -66,8 +65,7 @@ class DataIO:
         """
 
         # Type checking for ndarray
-        if not getattr(observation, "shape"):
-            print("Data is not a ndarray, are you sure this is going correctly? ")
+        if type(observation) is not numpy.ndarray:
             return observation
 
         # Check the correct dimensions
@@ -117,8 +115,7 @@ class DataIO:
 
     def decompress(self, decompress_data):
         """  Input is compressed data, output is a json.dump | string.  """
-        # TODO Fix restoring from difference map
-        decompress_data =  zlib.decompress(decompress_data).decode(self.encoding_type)
+        decompress_data = zlib.decompress(decompress_data).decode(self.encoding_type)
         return self._restore_observation(decompress_data)
 
     @staticmethod

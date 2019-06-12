@@ -16,15 +16,13 @@ from contextlib import closing
 class PersistentStorage:
     """Controls the saving and recovery of data from the hard-drive"""
 
-    def __init__(self, compressor, save_folder, games_to_store=1):
-        self._save_path = None
-        self._compressor = None
-        self._games_to_store = games_to_store
+    def __init__(self, save_folder, compressor=None):
         self._save_path = self.set_path(save_folder)
         self._compressor = self.set_compressor(compressor)
         self._first_time_save = True
 
-    def set_compressor(self, compressor):
+    @staticmethod
+    def set_compressor(compressor):
         """
         Sets the algorithm_base to compress visual data with
 
@@ -33,20 +31,19 @@ class PersistentStorage:
         compressor : Compressor
             The compressor to be used until a new one will be set.
 
-        Modifies
+        Return
         --------
-        compressor
+        compressor: class
+            Returns a compressor that has the option to 'compress' and 'decompress'.
+            It can be None, in which it doesn't do anything and 'empty' in which
+            case it will destroy the observation.
         """
 
         # Set an empty compressor if none exists, that will return entered values
         if compressor is None:
-            compressor = type('', (), dict(compress=lambda x: x,
-                                                 decompress=lambda x: x
-                                                 ))
+            compressor = type('', (), dict(compress=lambda x: x, decompress=lambda x: x))
         elif compressor == "Empty":
-            compressor = type('', (), dict(compress=lambda x: "",
-                                                 decompress=lambda x: x
-                                                 ))
+            compressor = type('', (), dict(compress=lambda x: "", decompress=lambda x: x))
         else:
             compressor = compressor
         print('Using Compressor: ', type(compressor).__name__)

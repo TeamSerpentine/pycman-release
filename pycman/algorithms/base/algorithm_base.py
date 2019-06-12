@@ -13,8 +13,8 @@ import sys
 from collections import namedtuple, defaultdict
 
 from abc import abstractmethod
-from importlib import import_module
 from pycman.algorithms.base.replay_memory import ReplayMemory
+from pycman.core.gamecontrol.handlers.gym import HandlerGym
 import pickle
 import numpy as np
 
@@ -35,8 +35,8 @@ class AlgorithmBase(ReplayMemory):
             The name of the OpenAI gym environment.
          save_folder:
             The path where the database and the checkpoints will be saved.
-         preprocessor: string
-            The name of the used preprocessor.
+         preprocessor: class
+            The instance of the used preprocessor.
          preprocessor_settings: dict
             A dictionary containing all construction parameters for the preprocessor.rst.
          session_restore: bool
@@ -107,12 +107,11 @@ class AlgorithmBase(ReplayMemory):
                 raise("Error: Can not load checkpoint from path:", checkpoint_path)
 
         # Create an instance of the preprocessor.rst
-        preprocessor_instance = self._get_preprocessor(preprocessor)
-        if preprocessor_instance:
+        if preprocessor:
             if preprocessor_settings is None:
-                self.__preprocessor = preprocessor_instance()
+                self.__preprocessor = preprocessor()
             else:
-                self.__preprocessor = preprocessor_instance(**preprocessor_settings)
+                self.__preprocessor = preprocessor(**preprocessor_settings)
         else:
             print("Using preprocessor:", None)
             self.__preprocessor = type('', (), dict(preprocess=lambda x: x,
@@ -309,32 +308,13 @@ class AlgorithmBase(ReplayMemory):
             self._flush(increase_epoch=True)
             self.__game_rewards = []
 
-    def _get_preprocessor(self, preprocessor):
-        """ Returns the preprocessor from string in the preprocessor.rst folder if it exists. """
-
-        # If you don't have a preprocessor.rst, skip this
-        if preprocessor == "None" or preprocessor == None:
-            return None
-
-        # GO through all the module files and look for preprocessors
-        for each in sys.modules:
-            if "preprocessors.preprocessor_hackaday" in each:
-                module = import_module(each)
-                if getattr(module, preprocessor, None):
-                    print("Using preprocessor:", preprocessor)
-                    return getattr(module, preprocessor)
-
-        # If the correct one is not found raise an error
-        raise ValueError("The preprocessor couldn't be found, please make sure that it is located in the preprocessor folder"
-                         "and imported in your algorithm_base file, otherwise it cannot be detected automatically.")
-
     def _get_gym_constants(self, game_name):
         """"Receives info about the game environment """
         # Get some basic data from the game
-        env = gym.make(game_name)
-        state_size = env.reset().size
-        action_space = env.action_space.n
-        env.close()
+
+        gym_env = HandlerGym(game_name)
+        state_size = gym_env.obs.size
+        action_space = gym_env.action_space
         return state_size, action_space
 
     def _store_session(self):

@@ -22,11 +22,22 @@ class GameGUI:
 
         # TODO implement pause option for AI only as well
         self._app.addButtons(constants.BUTTONS_RUNNING_GAME, self._running_game_options, colspan=constants.CENTERED)
-        if not self._players_actions:
+        if not self._players.human:
             self._app.disableButton("PAUSE GAME")
 
+        # Activate the keys
         self._app.bindKeys(constants.KEYS_HUMAN_1, self._pressed_keys_human)
         self._app.bindKeys(constants.KEYS_HUMAN_2, self._pressed_keys_human)
+
+        # Retrieve the render settings
+        game_settings = self._players.get_player_config(constants.PLAYER_GAME)
+        render_settings = game_settings[f"{constants.PLAYER_GAME};{constants.PLAYER_GAME};render"]
+
+        # If there are no render settings give this message instead.
+        if not render_settings:
+            self._app.addLabel("The render option is set to False, no visualization. "
+                               "Game is playing in the background. \n"
+                               "You can increase speed by running from main_load_ini instead")
 
     def fill_players_actions(self, players):
         player_action = dict()

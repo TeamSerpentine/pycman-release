@@ -76,11 +76,11 @@ class ReplayMemory(ABC):
             # Initializes the Persistent Storage, and make the path game_name dependent
             self.__persistent_storage = PersistentStorage(
                     # Predefined processor, can be set to None if not applicable
-                    compressor=DataIO(),
+                    compressor=DataIO(), # TODO make variables
                     # Replace the placeholder 'game name' with the actual game_name
                     save_folder=save_folder)
 
-        # Flag whether the data is already compiled. Makes sure users always receive compiled dataframes.
+        # Flag whether the data is already compiled. Makes sure users always receive compiled data frames.
         self.__data_is_compiled = False
         self.__save_folder = save_folder
 
@@ -100,7 +100,7 @@ class ReplayMemory(ABC):
             "algorithm_name": algorithm,
             "algorithm_config_file": json.dumps(algorithm_settings),
             "compressor_name": compressor,
-            "preprocessor_name": preprocessor,
+            "preprocessor_name": preprocessor.__class__.__name__,
             "preprocessor_config_file": json.dumps(preprocessor_settings),
             "hardware": "TO DO: hardware",      # TODO:
             "game_name": game_name,
@@ -284,6 +284,7 @@ class ReplayMemory(ABC):
         action_evaluation_distribution = []
         for name, group in grouped_evaluation['action']:
             action_evaluation_distribution.append(group.value_counts().to_string().replace('\n', '; '))
+
         self.__dataframe_evaluation_game = pd.DataFrame({
             'evaluation_id': list(grouped_evaluation.groups.keys()),
             'epoch': [self._epoch]*len(grouped_evaluation),

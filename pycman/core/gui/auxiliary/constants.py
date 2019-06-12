@@ -63,12 +63,16 @@ LIMIT_PLAYER_AI = 16
 LIMIT_PLAYER_TOTAL = 16
 LIMIT_PLAYER_PER_ROW = 4
 
+FILTER_ALGORITHMS = ["HumanAlgorithm", "TemplateAlgorithm"]
+FILTER_PREPROCESSORS = ["TemplatePreProcessor"]
+
 PLAYER_HUMAN = "HUMAN"
 PLAYER_AI = "AI"
 PLAYER_GAME = "GAME"
 
 TOOLTIPS = {
     # Add the help for the Game controls
+    f"{PLAYER_GAME};checkpoint_interval": "After so many epochs it will make a savepoint",
     f"{PLAYER_GAME};compressor": "If you want to store data, this will compress the frames, can be left empty",
     f"{PLAYER_GAME};fps": "Number of frames shown when rendering the game, 0 is as fast as possible",
     f"{PLAYER_GAME};game_name": "Name of the Atari Game, this need to include version as well (e.g. Breakout-v0)",
@@ -78,12 +82,18 @@ TOOLTIPS = {
     f"{PLAYER_GAME};session_name": "Can be used to distinguish between users, or different settings",
     f"{PLAYER_GAME};session_restore": "If True it will try to continue training from the last point onwards",
     f"{PLAYER_GAME};store_data": "If True it will store the data to the disk at the location specified in save folder",
+    f"{PLAYER_GAME};store_video": "If True it will store the observations from the evaluation to disk (please note "
+                                  "that this is about 10mb per epoch. for 5 games.",
 
     # Add the help to AI players
     "Algorithm;algorithm_name": "The name of the algorithm_base, it does have to be imported in the controller in order "
                                 "to load properly.",
     "Algorithm;can_train": "If True will train after playing a number of games.",
-    "Algorithm;preprocessor.rst": "The name of the preprocessor.rst, that is used to processes the images for "                                  
+    "Algorithm;condition_nr_games": "Start training if this amount of games has been reached",
+    "Algorithm;condition_nr_steps": "Start training if this amount of steps has been reached (by default infinity)",
+    "Algorithm;condition_ram_used": "Start training if this percentage of your ram is used, if you want to disable "
+                                    "this set it higher than 100 percent",
+    "Algorithm;preprocessor": "The name of the preprocessor.rst, that is used to processes the images for "                                  
                                       "the algorithm_base, does have to imported in Algorithm to work correctly. If "                                 
                                       "'None' will return the original image, if 'empty', will destroy the image",
 
@@ -92,10 +102,10 @@ TOOLTIPS = {
 
 
     # Add the help to the HUMAN players
-    "save_highscore": "Not implemented*",
-    "keys": "If you render using this app, these are the keys that you can use to controll the game",
-    "player": "Just to say that you are a plain old boring human.rst, AI will rule the world... Just wait for it you "
-              "unbeliever!!!",
+    "HUMAN;save_highscore": "Not implemented*",
+    "HUMAN;keys": "If you render using this app, these are the keys that you can use to controll the game",
+    "HUMAN;player": "Just to say that you are a plain old boring human.rst, AI will rule the world... "
+                    "Just wait for it you unbeliever!!!",
 
     # Add the help to buttons
     "LOAD AI": "Can be used to load the game settings and an AI from the computer.",

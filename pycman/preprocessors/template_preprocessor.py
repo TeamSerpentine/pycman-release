@@ -8,7 +8,7 @@
 from pycman.preprocessors.base.preprocessor_base import PreProcessorBase
 
 
-class PreProcessor(PreProcessorBase):
+class TemplatePreProcessor(PreProcessorBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__()

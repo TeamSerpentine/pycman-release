@@ -293,7 +293,6 @@ class HandlerConfig:
                                            store_video=section_dict['GAME']['store_video'])
 
             return {algorithm_name: dict(settings=algorithm_base_settings,
-                                         **algorithm,
                                          **algorithm_settings,
                                          )}
 

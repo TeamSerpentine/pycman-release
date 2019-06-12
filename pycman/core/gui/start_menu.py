@@ -6,8 +6,8 @@
     Take a look at the pycman repository or the MIT license for more information on the use and reuse of pycman.
 """
 
-
-import inspect
+import glob
+import importlib.util
 import os
 import sys
 
@@ -27,7 +27,7 @@ class Layout:
         self._player_selected = None
 
         self._active_tooltips = []
-        self._remove_tooltips = True
+        self._remove_tooltips = False
 
     def __enter__(self):
         with gui(constants.GUI_NAME, constants.SCREEN_SIZE) as self._app:
@@ -58,16 +58,47 @@ class Layout:
         path_images = os.path.join(path_pycman, "images", self._os_class.__class__.__name__.lower())
         return os.path.join(path_images, "logos")
 
-    @staticmethod
-    def _find_list_of_algorithsm():
-        list_algorithms = []
-        for module in sys.modules:
-            if "pycman.algorithms" in module and "preprocessor" not in module:
-                for obj in dir(sys.modules[module]):
-                    if inspect.getmembers(obj, inspect.isclass):
-                        if "Algorithm" in obj and obj not in ["Algorithm", "HumanAlgorithm"]:
-                            list_algorithms.append(obj)
-        return list_algorithms
+    def _find_list_of_algorithms_preprocessor(self, folder):
+        algorithm_dict = dict()
+
+        # Find the full path to the (lowest) pycman folder
+        tail, head = "", os.path.abspath(__file__)
+        while not tail == "core":
+            head, tail = os.path.split(head)
+
+        # Go into algorithms and select everything not starting with '__'
+        # and has the extension '.py'
+        python_files = glob.glob(f"{head}/{folder}/[!__]*.py")
+
+        # Load the module from the full path name
+        for path in python_files:
+            loaded_module = self._load_module_from_full_path_string(path)
+            filter = getattr(constants, f"FILTER_{folder.upper()}", [])
+            classes = self._load_all_classes_in_a_module(loaded_module, filter)
+            if classes:
+                algorithm_dict = dict(**algorithm_dict, **classes)
+
+        return algorithm_dict
+
+    def _load_module_from_full_path_string(self, full_path):
+        """ Get a module from a full path name to the module.  """
+        spec = importlib.util.spec_from_file_location("module.name", full_path)
+        loaded_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(loaded_module)
+        return loaded_module
+
+    def _load_all_classes_in_a_module(self, module, filters_list):
+        """ Returns all the classes and ignores import statements.  """
+        classes = dict()
+        for name, object in module.__dict__.items():
+            # Check for classes
+            if isinstance(object, type):
+                # Ignore imported classes, so check for module name
+                if object.__module__ == module.__name__:
+                    # Ignore the base class algorithms
+                    if name not in filters_list:
+                        classes[name] = object
+        return classes
 
     def _print_msg_box(self, msg):
         self._app.infoBox("Info", msg)
@@ -139,11 +170,12 @@ class Layout:
                 self._add_tooltips(f"{ids};{section};{value}")
                 return self
 
-        if key == "algorithm_name":
-            list_algorithms = self._find_list_of_algorithsm()
-            if value in list_algorithms:
+        if key == "algorithm_name" or key == "preprocessor":
+            folder = "algorithms" if key == "algorithm_name" else "preprocessors"
+            algorithms_dict = self._find_list_of_algorithms_preprocessor(folder=folder)
+            if value in algorithms_dict:
                 # Create the drop down menu
-                self._create_layout_option_box_algorithm_name(ids, section, key, list_algorithms, value)
+                self._create_layout_option_box_algorithm_name(ids, section, key, list(algorithms_dict), value)
                 return self
             else:
                 # Notify that the algorithm cannot be found
@@ -156,9 +188,9 @@ class Layout:
         self._app.setEntryDefault(f"{ids};{section};{key}", value)
         return self
 
-    def _create_layout_option_box_algorithm_name(self, ids, section, key, list_algorithms, value):
-        self._app.addOptionBox(f"{ids};{section};{key}", list_algorithms)
-        self._app.setOptionBox(f"{ids};{section};{key}", index=list_algorithms.index(value))
+    def _create_layout_option_box_algorithm_name(self, ids, section, key, algorithms_list, value):
+        self._app.addOptionBox(f"{ids};{section};{key}", algorithms_list)
+        self._app.setOptionBox(f"{ids};{section};{key}", index=algorithms_list.index(value))
         return self
 
     def _create_layout_player_settings(self, player_name):
@@ -233,7 +265,10 @@ class Layout:
             self._print_msg_box("Unable to save, no players found")
             return False
 
-        self._save_player_settings()
+        if not self._save_player_settings():
+            self._print_msg_box("Unable to save, cancelled action")
+            return False
+
         return self
 
     def _button_home_menu_load_ai(self):
@@ -259,8 +294,7 @@ class Layout:
             "SWITCH/SHOW PLAYER": self._button_players_switch_show_player,
             "ADD PARAMETER": self._button_players_add_parameter,
         }
-        mapping.get(btn, None)()
-        return self
+        return mapping.get(btn, None)()
 
     def _buttons_players_delete_player(self):
         """ Delete a player and updates the screen.  """
@@ -280,14 +314,29 @@ class Layout:
 
     def _buttons_players_controller_settings(self):
         """ Show the game settings.  """
+
+        # Before switching store all values in case of changed parameters
+        self._update_player_settings()
+
+        # Change the player selected
         self._player_selected = constants.PLAYER_GAME
         self.refresh()
         return self
 
     def _buttons_players_run_game(self):
+
+        # If you cancelled the saving, abort
         if not self._buttons_home_menu_save():
-            self._print_msg_box("Unable to save, cancelled running the game.")
-            return self
+            return False
+
+        # Retrieve the render settings
+        game_settings = self._players.get_player_config(constants.PLAYER_GAME)
+        render_settings = game_settings[f"{constants.PLAYER_GAME};{constants.PLAYER_GAME};render"]
+
+        # If there is a Human and rendering is False, set it to True
+        if self._players.human and not render_settings:
+            self._players.change_config_values(constants.PLAYER_GAME, constants.PLAYER_GAME, 'render', "True")
+            self._print_msg_box("Render is set to True, since a Human player was detected.")
 
         kwargs = self._players.get_export_code()
         self._app.removeAllWidgets()
@@ -367,9 +416,8 @@ class Layout:
             # Make sure that the new save folder, is also the folder that you want
             path = self._app.directoryBox("save path", dirName=path)
             if not path:
-                # If you cancel the saving, print a message
-                self._print_msg_box("Unable to save")
-                return self
+                # If you cancel the saving, abort
+                return False
 
             # Save the new path to the controller settings
             player = constants.PLAYER_GAME
@@ -389,8 +437,14 @@ class Layout:
     def _add_tooltips(self, wdg_name):
         """ Adds a tooltip at hoovering over the letters of the widget.  """
 
+        # Remove player specific information, maintain section and key
         clean_wdg_name = ";".join(wdg_name.split(";")[1:])
 
+        # In case it is HUMAN, remove the endings for the tooltips
+        clean_wdg_name = clean_wdg_name.replace("_1", "").replace("_2", "")
+
+        # If the tooltip is in the tooltip dictionary and we want to show tooltips
+        # Add them, too the active tooltips.
         if constants.TOOLTIPS.get(clean_wdg_name, None) and not self._remove_tooltips:
             self._app.setLabelTooltip(wdg_name, constants.TOOLTIPS[clean_wdg_name])
             self._active_tooltips.append(f"setLabelTooltip;{wdg_name}")
@@ -417,6 +471,7 @@ class Layout:
     # TODO make it a proper fix, if it gets called back from the controller
     # it gets an extra variable, that it doesn't need nor uses.
     def refresh(self, callback=None):
+        self.clear_layout()
         if self._player_selected:
             self._create_layout_player_settings(self._player_selected)
             return self

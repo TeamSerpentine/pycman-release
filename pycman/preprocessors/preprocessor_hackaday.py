@@ -13,8 +13,9 @@ class PreProcessor(PreProcessorBase):
     def __init__(self, *args, **kwargs):
         super().__init__()
         """Preprocessor Constructor"""
-        print("Extra arguments:", *args)
-        print("Extra keyword arguments:", kwargs)
+
+        print("Extra preprocessor arguments:", *args)
+        print("Extra preprocessor keyword arguments:", kwargs)
 
     def preprocess(self, observation):
         """

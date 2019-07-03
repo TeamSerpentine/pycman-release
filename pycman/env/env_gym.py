@@ -14,19 +14,15 @@ from pycman.env import Env
 
 
 class HandlerGym(Env):
-    """ Handles the call to gym and stores all the variables.  """
-    def __init__(self, game_name):
-        self.make(game_name)
-
-    def make(self, game_name):
-        """ Creates a gym environment
+    """ Handles the call to gym and stores all the variables.
 
         Parameters
         ----------
         game_name: str
             The game name of the gym environment (this includes version and correct
             capitalization, for example 'MsPacman-v0'.
-        """
+    """
+    def __init__(self, game_name):
 
         # If the game name is not available in gym, there will be an error
         # and it will return possible alternatives.
@@ -35,6 +31,7 @@ class HandlerGym(Env):
             raise ValueError("Game not found, close matches are:\n {}".
                              format('\n '.join(map(str, alternatives))))
 
+        # Store constants
         self._env = gym.make(game_name)
         self.game_name = game_name
         self.input_shape = self._env.reset().shape
@@ -45,6 +42,7 @@ class HandlerGym(Env):
 
     @staticmethod
     def _get_action_space(env):
+        """ Check the action space for different game types.  """
         if hasattr(env.action_space, 'n'):
             return env.action_space.n
 
@@ -101,17 +99,9 @@ class HandlerGym(Env):
         return self
 
     def get_constants(self):
-
-        # Get the number of action that are available, and the meaning of the actions
+        """  Get constants that are specific to a game.  """
         constants = namedtuple("constants", ["name", "input_shape", "output_shape", "action_meanings"])
         return constants(name=self.game_name,
                          input_shape=self.input_shape,
                          output_shape=self._get_action_space(self._env),
-                         action_meanings=self._get_action_meanings(self._env)
-                    )
-
-
-
-
-if __name__ == "__main__":
-    HandlerGym("MsPacman-v0")
+                         action_meanings=self._get_action_meanings(self._env))

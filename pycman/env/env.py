@@ -8,11 +8,6 @@ from abc import ABC, abstractmethod
 
 class Env(ABC):
     @abstractmethod
-    def make(self, env_name: str):
-        """ Creates an environment from one of the supported standard environments (Gym). """
-        pass
-
-    @abstractmethod
     def step(self, action: int) -> [np.array, int, bool, dict]:
         """ Perform one step in the environment with the provided arguments. """
         pass

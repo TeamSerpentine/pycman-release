@@ -6,7 +6,7 @@
     Take a look at the pycman repository or the MIT license for more information on the use and reuse of pycman.
 """
 
-from ...env.gym import HandlerGym
+from pycman.env.env_gym import HandlerGym
 
 import unittest
 

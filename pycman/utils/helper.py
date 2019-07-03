@@ -4,4 +4,9 @@ class Collecter:
         self.store = []
 
     def add(self, item):
-        self.store.append(item)
+        if not hasattr(item, "__iter__"):
+            item = [item]
+        self.store.extend(item)
+
+    def __repr__(self):
+        return str(self.store)

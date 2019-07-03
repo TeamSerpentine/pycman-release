@@ -40,6 +40,9 @@ class HandlerGym(Env):
         self.action = 0
         self.action_new = 0
 
+    def __repr__(self):
+        return f"<class 'Handlergym' game {self.game_name}>"
+
     @staticmethod
     def _get_action_space(env):
         """ Check the action space for different game types.  """

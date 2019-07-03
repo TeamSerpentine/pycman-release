@@ -1,7 +1,0 @@
-
-
-
-
-.. toctree::
-    modules/pycman
-

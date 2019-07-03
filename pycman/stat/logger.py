@@ -1,19 +1,19 @@
 """ This file contains the functionality required to log results to a file """
 
+import logging
 
-def log_game(*args, **kwargs):
-    """ Logs all the given information at the end of a game. Will produce exactly one line per game. """
-    pass
-
-
-def log_step(*args, **kwargs):
-    """ Logs all the given information for a particular step. Will produce exactly one line per step. """
-    pass
+from pycman.utils.helper import Collecter
 
 
-def log(*args, **kwargs):
-    """ General logging function that can always log information at any given moment. Simply appends the log file. """
-    pass
+class Logger:
+    def __init__(self):
+        self.console = Collecter()
+        self.game = Collecter()
+        self.step = Collecter()
+        self.general = Collecter()
 
-
-def log_console(*args, **kwargs): ...
+    def __repr__(self):
+        return f" Console: {self.console}\n" \
+               f" Game:    {self.game}\n" \
+               f" Step:    {self.step}\n" \
+               f" General: {self.general}\n"

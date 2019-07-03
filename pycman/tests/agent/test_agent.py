@@ -7,13 +7,13 @@
 """
 
 import unittest
-from pycman.agent.agent import *
+from pycman.agents.agents import *
 
 
 class TestAgent(unittest.TestCase):
 
     def test_add(self):
-        """ Tests the pycman.agent.add function"""
+        """ Tests the pycman.agents.add function"""
 
 
 if __name__ == "__main__":

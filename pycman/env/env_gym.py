@@ -9,8 +9,10 @@
 import gym
 import difflib
 
+from .env import Env
 
-class HandlerGym:
+
+class HandlerGym(Env):
     """ Handles the call to gym and stores all the variables.  """
     def __init__(self, game_name):
         """ Creates a gym environment
@@ -83,7 +85,7 @@ class HandlerGym:
         self.action_new = self._env.action_space.sample()
         return self.action_new
 
-    def reset_game(self):
+    def reset_gym(self):
         """ Reset all the game variables and environment to the begin state. """
         self._env.reset()
         self.action = 0

@@ -71,7 +71,7 @@ class TestHandlerGym(unittest.TestCase):
     def test_reset_game(self):
         """ Evaluate if random values are restored to begin state.  """
         self._gym.action = 5
-        self._gym.reset_game()
+        self._gym.reset()
         self.assertEqual(self._gym.action, 0, msg="Action not init correctly")
 
     def test_set_action_empty_step(self):

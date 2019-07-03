@@ -10,3 +10,6 @@ class Collecter:
 
     def __repr__(self):
         return str(self.store)
+
+    def __iter__(self):
+        return iter(self.store)

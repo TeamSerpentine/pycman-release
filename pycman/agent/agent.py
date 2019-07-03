@@ -14,8 +14,8 @@ class Agent(ABC):
         pass
 
     @abstractmethod
-    def step(self, obs: np.array, reward: int, done: bool, info: dict) -> int:
-        """ Perform one step in the environment with the provided arguments. """
+    def run(self, model, env, logger, max_thread=1):
+        """ Run the agent on the given environment until completion. """
         pass
 
     @abstractmethod

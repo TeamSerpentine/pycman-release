@@ -11,9 +11,6 @@ from pycman.env.env import *
 
 class TestEnv(unittest.TestCase):
 
-    def test_make(self):
-        """ Tests the pycman.env.make function.  """
-
     def test_step(self):
         """ Tests the pycman.env.step function.  """
 

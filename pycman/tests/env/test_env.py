@@ -12,13 +12,16 @@ from pycman.env.env import *
 class TestEnv(unittest.TestCase):
 
     def test_make(self):
-        """ Tests the pycman.env.make function"""
+        """ Tests the pycman.env.make function.  """
 
     def test_step(self):
-        """ Tests the pycman.env.step function"""
+        """ Tests the pycman.env.step function.  """
 
     def test_reset(self):
-        """ Tests the pycman.env.reset function"""
+        """ Tests the pycman.env.reset function.  """
+
+    def test_get_constants(self):
+        """ Tests the pycman.env.test_get_constants function.  """
 
 
 if __name__ == "__main__":

@@ -9,12 +9,16 @@
 import gym
 import difflib
 
-from .env import Env
+from collections import namedtuple
+from pycman.env import Env
 
 
 class HandlerGym(Env):
     """ Handles the call to gym and stores all the variables.  """
     def __init__(self, game_name):
+        self.make(game_name)
+
+    def make(self, game_name):
         """ Creates a gym environment
 
         Parameters
@@ -33,13 +37,9 @@ class HandlerGym(Env):
 
         self._env = gym.make(game_name)
         self.game_name = game_name
-
-        # Get the number of action that are available, and the meaning of the actions
-        self.action_space = self._get_action_space(self._env)
-        self.action_meanings = self._get_action_meanings(self._env)
+        self.input_shape = self._env.reset().shape
 
         # Set all the default variables
-        self._env.reset()
         self.action = 0
         self.action_new = 0
 
@@ -85,7 +85,7 @@ class HandlerGym(Env):
         self.action_new = self._env.action_space.sample()
         return self.action_new
 
-    def reset_gym(self):
+    def reset(self):
         """ Reset all the game variables and environment to the begin state. """
         self._env.reset()
         self.action = 0
@@ -99,6 +99,18 @@ class HandlerGym(Env):
     def close(self):
         self._env.close()
         return self
+
+    def get_constants(self):
+
+        # Get the number of action that are available, and the meaning of the actions
+        constants = namedtuple("constants", ["name", "input_shape", "output_shape", "action_meanings"])
+        return constants(name=self.game_name,
+                         input_shape=self.input_shape,
+                         output_shape=self._get_action_space(self._env),
+                         action_meanings=self._get_action_meanings(self._env)
+                    )
+
+
 
 
 if __name__ == "__main__":

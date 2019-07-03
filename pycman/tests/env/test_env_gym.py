@@ -38,14 +38,17 @@ class TestHandlerGym(unittest.TestCase):
         self.assertEqual(self.game_name, self._gym.game_name,
                          msg="Wrong game ID loaded")
 
-    def test_action_space(self):
-        """ Count the number of allowed actions.  """
-        self.assertEqual(9, self._gym.action_space)
+    def test_get_constants(self):
+        # Count the number of allowed actions.
+        self.assertEqual(9, self._gym.get_constants().output_shape)
 
-    def test_action_meanings(self):
-        """ See if all the actions are mapped correctly.  """
+        # See if all the actions are mapped correctly.
         correct = ['NOOP', 'UP', 'RIGHT', 'LEFT', 'DOWN', 'UPRIGHT', 'UPLEFT', 'DOWNRIGHT', 'DOWNLEFT']
-        self.assertEqual(correct, self._gym.action_meanings)
+        self.assertEqual(correct, self._gym.get_constants().action_meanings)
+
+        # input shape
+        self.assertEqual((210, 160, 3), self._gym.get_constants().input_shape)
+
 
     def test_pacman_step(self):
         """ Evaluate a single step. """

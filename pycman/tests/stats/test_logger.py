@@ -9,7 +9,8 @@
 import unittest
 from pycman.stat.logger import *
 
-class TestAgent(unittest.TestCase):
+
+class TestLogger(unittest.TestCase):
 
     def test_log_game(self):
         """ Tests the pycman.stat.log_game function"""

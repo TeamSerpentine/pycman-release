@@ -37,10 +37,7 @@ class HandlerGym:
         self.action_meanings = self._get_action_meanings(self._env)
 
         # Set all the default variables
-        self.obs = self._env.reset()
-        self.reward = 0
-        self.done = False
-        self.info = dict()
+        self._env.reset()
         self.action = 0
         self.action_new = 0
 
@@ -78,14 +75,8 @@ class HandlerGym:
         """ Make a step in the game, if there is no action provided, it will repeat the last action. """
         if action is not None:
             self.action_new = action
-        self.obs, self.reward, self.done, self.info = self._env.step(self.action_new)
         self.action = self.action_new
-        return self
-
-    def set_action(self, action):
-        """ Stores the action that will be executed on the next step if no action is provided.  """
-        self.action_new = action
-        return self
+        return self._env.step(self.action_new)
 
     def random_action(self):
         """ Returns a random action, which is an integer between 0 and the action space.  """
@@ -94,10 +85,7 @@ class HandlerGym:
 
     def reset_game(self):
         """ Reset all the game variables and environment to the begin state. """
-        self.obs = self._env.reset()
-        self.reward = 0
-        self.done = False
-        self.info = {}
+        self._env.reset()
         self.action = 0
         return self
 

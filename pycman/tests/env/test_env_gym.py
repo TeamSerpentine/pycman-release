@@ -47,21 +47,13 @@ class TestHandlerGym(unittest.TestCase):
         correct = ['NOOP', 'UP', 'RIGHT', 'LEFT', 'DOWN', 'UPRIGHT', 'UPLEFT', 'DOWNRIGHT', 'DOWNLEFT']
         self.assertEqual(correct, self._gym.action_meanings)
 
-    def test_pacman_init_counters(self):
-        """ Evaluate all beginning variables. """
-        self.assertEqual((210, 160, 3), self._gym.obs.shape, msg="Obs init wrong dimensions")
-        self.assertEqual(0, self._gym.reward, msg="Rewards not init correctly")
-        self.assertEqual(False, self._gym.done, msg="Done not init correctly")
-        self.assertEqual(dict(), self._gym.info, msg="Info not init correctly")
-        self.assertEqual(0, self._gym.action, msg="Action not init correctly")
-
     def test_pacman_step(self):
         """ Evaluate a single step. """
-        self._gym.step(5)
-        self.assertEqual((210, 160, 3), self._gym.obs.shape, msg="Obs after step wrong dimensions")
-        self.assertEqual(0, self._gym.reward, msg="Rewards after step correctly")
-        self.assertEqual(False, self._gym.done, msg="Done after step correctly")
-        self.assertEqual({'ale.lives': 3}, self._gym.info, msg="Info after step correctly")
+        obs, reward, done, info = self._gym.step(5)
+        self.assertEqual((210, 160, 3), obs.shape, msg="Obs after step wrong dimensions")
+        self.assertEqual(0, reward, msg="Rewards after step correctly")
+        self.assertEqual(False, done, msg="Done after step correctly")
+        self.assertEqual({'ale.lives': 3}, info, msg="Info after step correctly")
         self.assertEqual(5, self._gym.action, msg="Action after step correctly")
 
     def test_pycman_random_step_bounds(self):
@@ -79,25 +71,13 @@ class TestHandlerGym(unittest.TestCase):
     def test_reset_game(self):
         """ Evaluate if random values are restored to begin state.  """
         self._gym.action = 5
-        self._gym.done = True
-        self._gym.reward = 50
-        self._gym.obs = (1, 1, 1)
-        self._gym.info = {"Hello world": "Hello world"}
-
         self._gym.reset_game()
-
-        self.assertEqual(self._gym.obs.shape, (210, 160, 3), msg="Obs init wrong dimensions")
-        self.assertEqual(self._gym.reward, 0, msg="Rewards not init correctly")
-        self.assertEqual(self._gym.done, False, msg="Done not init correctly")
-        self.assertEqual(self._gym.info, dict(), msg="Info not init correctly")
         self.assertEqual(self._gym.action, 0, msg="Action not init correctly")
 
     def test_set_action_empty_step(self):
         """ Evaluate that if the game is not receiving an input it well return action 0.  """
         for action in range(9):
-            self._gym.set_action(action)
-            self._gym.step()
-
+            self._gym.step(action)
             self.assertEqual(action, self._gym.action_new, msg="Empty step not taken properly")
 
 

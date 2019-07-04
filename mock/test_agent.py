@@ -18,7 +18,7 @@ class MockAgent(Agent):
             env.reset()
             done = False
             while not done:
-                #env.render()
+                # env.render()
                 obs, reward, done, info = env.step(env.random_action())
             self.games_played += 1
         print('finished')
@@ -32,6 +32,7 @@ if __name__ == "__main__":
     pycman.agent.add(agents)
 
     pycman.run()
+
     #pycman.run(order='parallel')
     for a in agents:
         print(a.games_played)

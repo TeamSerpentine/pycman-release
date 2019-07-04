@@ -40,14 +40,14 @@ class TestHandlerGym(unittest.TestCase):
 
     def test_get_constants(self):
         # Count the number of allowed actions.
-        self.assertEqual(9, self._gym.get_constants().output_shape)
+        self.assertEqual(9, self._gym.info().output_shape)
 
         # See if all the actions are mapped correctly.
         correct = ['NOOP', 'UP', 'RIGHT', 'LEFT', 'DOWN', 'UPRIGHT', 'UPLEFT', 'DOWNRIGHT', 'DOWNLEFT']
-        self.assertEqual(correct, self._gym.get_constants().action_meanings)
+        self.assertEqual(correct, self._gym.info().action_meanings)
 
         # input shape
-        self.assertEqual((210, 160, 3), self._gym.get_constants().input_shape)
+        self.assertEqual((210, 160, 3), self._gym.info().input_shape)
 
 
     def test_pacman_step(self):

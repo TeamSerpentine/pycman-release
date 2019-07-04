@@ -1,15 +1,15 @@
+
 from copy import deepcopy
-import multiprocessing
+from multiprocessing import Process
 
-from multiprocessing import pool, Process
-from time import time
-
+from pycman.core.utils.decorators import timer
 
 class Run:
     def __init__(self, agents, env):
         self.agents = agents
         self.env = env
 
+    @timer
     def run(self, order='sequential'):
         if order == 'sequential':
             self.run_sequential()
@@ -20,7 +20,6 @@ class Run:
         envs = [deepcopy(self.env.get()) for _ in self.agents]
 
         for agent, env in zip(self.agents, envs):
-            print(f"{str(agent).ljust(20)}, {env}")
             agent.run(env)
             env.close()
 

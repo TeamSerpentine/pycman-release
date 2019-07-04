@@ -47,11 +47,5 @@ filters:
 
 root:
     level: DEBUG
-    handlers: [console, general, game]
-    propogate: yes
-
-loggers:
-    root:
-        level: INFO
-        handlers: [console, game, general]
-        propogate: no
+    handlers: [console]
+    propogate: True

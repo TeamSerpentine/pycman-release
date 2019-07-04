@@ -29,9 +29,11 @@ class Collector:
 
 class Env:
     environment = None
+    game_name = None
 
     def gym(self, name):
         self.environment = env_gym.HandlerGym(name)
+        self.game_name = name
 
     def get(self):
         return self.environment
@@ -40,12 +42,11 @@ class Env:
         return self.environment.info()
 
 
-
 class DataLogger:
     def __init__(self, log_name):
         self.data = dict()
         self.log_name = log_name
-        setattr(self, log_name, logging.getLogger(log_name))
+        self.log = logging.getLogger(log_name)
 
     def add(self, item: dict):
         for k, v in item.items():
@@ -53,7 +54,3 @@ class DataLogger:
 
     def json(self):
         return json.dumps(self.data)
-
-    def set_logger(self):
-        for level in ["debug", "info", "warning", "error", "critical"]:
-            setattr(self, level, getattr(getattr(self, self.log_name), level))

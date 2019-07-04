@@ -41,7 +41,7 @@ class Logger:
             os.mkdir("log")
 
         self.setupLogging(loc, game_name)
-        for handler in self.game.game.parent.handlers:
+        for handler in self.game.log.parent.handlers:
             if hasattr(handler, "doRollover"):
                 handler.doRollover()
 

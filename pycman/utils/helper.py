@@ -33,3 +33,6 @@ class Env():
 
     def get(self):
         return self.environment
+
+    def info(self):
+        return self.environment.info()

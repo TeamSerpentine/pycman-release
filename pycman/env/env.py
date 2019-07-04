@@ -20,3 +20,18 @@ class Env(ABC):
     def reset(*args, **kwargs):
         """ Resets the environment.  """
         pass
+
+    @abstractmethod
+    def info(*args, **kwargs):
+        """ Gives information about the environment. """
+        pass
+
+    @abstractmethod
+    def close(self):
+        """ Closes the environment graciously. """
+        pass
+
+    @abstractmethod
+    def render(self):
+        """ Renders the game. """
+        pass

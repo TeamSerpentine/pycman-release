@@ -8,13 +8,13 @@
 """
 
 import unittest
-from pycman.utils.helper import Collecter
+from pycman.utils.helper import Collector
 
 
 class TestCollector(unittest.TestCase):
 
     def setUp(self):
-        self.collector = Collecter()
+        self.collector = Collector()
 
     def test_add_item(self):
         for i in range(3):

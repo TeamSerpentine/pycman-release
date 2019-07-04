@@ -2,7 +2,7 @@
 import pycman.env.env_gym as env_gym
 
 
-class Collecter:
+class Collector:
     def __init__(self):
         self.store = []
 

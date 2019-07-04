@@ -2,10 +2,10 @@
 
 from pycman.run.run import Run
 from pycman.stat.logger import Logger
-from pycman.utils.helper import Collecter, Env
+from pycman.utils.helper import Collector, Env
 
 
 env = Env()
-agent = Collecter()
+agent = Collector()
 logger = Logger()
 run = Run(agent, env).run

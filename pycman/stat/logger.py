@@ -2,15 +2,15 @@
 
 import logging
 
-from pycman.utils.helper import Collecter
+from pycman.utils.helper import Collector
 
 
 class Logger:
     def __init__(self):
-        self.console = Collecter()
-        self.game = Collecter()
-        self.step = Collecter()
-        self.general = Collecter()
+        self.console = Collector()
+        self.game = Collector()
+        self.step = Collector()
+        self.general = Collector()
 
     def __repr__(self):
         return f" Console: {self.console}\n" \

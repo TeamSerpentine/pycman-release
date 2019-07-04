@@ -31,10 +31,12 @@ class HandlerGym(Env):
             raise ValueError("Game not found, close matches are:\n {}".
                              format('\n '.join(map(str, alternatives))))
 
-        # Store constants
         self._env = gym.make(game_name)
+
+        # Store environment variables
         self.game_name = game_name
         self.input_shape = self._env.reset().shape
+        self.output_shape = self._get_action_space(self._env),
 
         # Set all the default variables
         self.action = 0
@@ -101,10 +103,7 @@ class HandlerGym(Env):
         self._env.close()
         return self
 
-    def get_constants(self):
+    def info(self):
         """  Get constants that are specific to a game.  """
-        constants = namedtuple("constants", ["name", "input_shape", "output_shape", "action_meanings"])
-        return constants(name=self.game_name,
-                         input_shape=self.input_shape,
-                         output_shape=self._get_action_space(self._env),
-                         action_meanings=self._get_action_meanings(self._env))
+        info = namedtuple("info", ["action_meanings"])
+        return info(action_meanings=self._get_action_meanings(self._env))

@@ -1,4 +1,7 @@
 
+import pycman.env.env_gym as env_gym
+
+
 class Collecter:
     def __init__(self):
         self.store = []
@@ -13,3 +16,7 @@ class Collecter:
 
     def __iter__(self):
         return iter(self.store)
+
+
+class Env(Collecter):
+    gym = env_gym.HandlerGym

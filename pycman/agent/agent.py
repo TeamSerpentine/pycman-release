@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 
 class Agent(ABC):
     @abstractmethod
-    def run(self, env, logger, max_thread=1):
+    def run(self, env, max_thread=1):
         """ Run the agent on the given environment until completion. """
         pass
 

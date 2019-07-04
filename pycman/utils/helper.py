@@ -11,12 +11,25 @@ class Collecter:
             item = [item]
         self.store.extend(item)
 
-    def __repr__(self):
+    def __str__(self):
         return str(self.store)
+
+    def __repr__(self):
+        return f"<class '{self.__name__}'>"
 
     def __iter__(self):
         return iter(self.store)
 
+    def __len__(self):
+        return len(self.store)
 
-class Env(Collecter):
-    gym = env_gym.HandlerGym
+
+class Env():
+
+    environment = None
+
+    def gym(self, name):
+        self.environment = env_gym.HandlerGym(name)
+
+    def get(self):
+        return self.environment

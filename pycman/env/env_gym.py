@@ -94,7 +94,7 @@ class HandlerGym(Env):
         self.action = 0
         return self
 
-    def render_game(self):
+    def render(self):
         """ Renders the game to the screen, this has to be called every time again after a new step.  """
         self._env.render()
         return self

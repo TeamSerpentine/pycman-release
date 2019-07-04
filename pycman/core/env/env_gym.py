@@ -6,11 +6,12 @@
     Take a look at the pycman repository or the MIT license for more information on the use and reuse of pycman.
 """
 
-import gym
 import difflib
+import gym
+import numpy as np
 
 from collections import namedtuple
-from pycman.env import Env
+from pycman.core.env import Env
 
 
 class HandlerGym(Env):
@@ -22,6 +23,8 @@ class HandlerGym(Env):
             The game name of the gym environment (this includes version and correct
             capitalization, for example 'MsPacman-v0'.
     """
+    __slots__ = ("_env", "game_name", "input_shape", "output_shape", "total_reward", "total_action_distribution",
+                 "action", "action_new")
     def __init__(self, game_name):
 
         # If the game name is not available in gym, there will be an error
@@ -39,6 +42,10 @@ class HandlerGym(Env):
         self.output_shape = self._get_action_space(self._env),
 
         # Set all the default variables
+        self.total_reward = 0
+        self.total_action_distribution = np.zeros(self.output_shape)
+
+        self.done = False
         self.action = 0
         self.action_new = 0
 
@@ -76,22 +83,30 @@ class HandlerGym(Env):
         close_matches = difflib.get_close_matches(game_name.lower(), all_game_names, n=n)
         return close_matches
 
-    def step(self, action=None):
-        """ Make a step in the game, if there is no action provided, it will repeat the last action. """
-        if action is not None:
-            self.action_new = action
-        self.action = self.action_new
-        return self._env.step(self.action_new)
-
     def random_action(self):
         """ Returns a random action, which is an integer between 0 and the action space.  """
         self.action_new = self._env.action_space.sample()
         return self.action_new
 
+    def step(self, action=None):
+        """ Make a step in the game, if there is no action provided, it will repeat the last action. """
+        if action is not None:
+            self.action_new = action
+        self.action = self.action_new
+
+        obs, reward, done, info = self._env.step(self.action_new)
+
+        self.total_reward += reward
+        if self.done:
+            # TODO log rewards
+            ...
+        return obs, reward, done, info
+
     def reset(self):
         """ Reset all the game variables and environment to the begin state. """
         self._env.reset()
         self.action = 0
+        self.done = False
         return self
 
     def render(self):

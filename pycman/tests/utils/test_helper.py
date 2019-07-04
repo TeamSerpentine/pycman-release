@@ -8,7 +8,7 @@
 """
 
 import unittest
-from pycman.utils.helper import Collector
+from pycman.core.utils.helper import Collector
 
 
 class TestCollector(unittest.TestCase):
@@ -25,9 +25,9 @@ class TestCollector(unittest.TestCase):
         self.collector.add([i for i in range(3)])
         self.assertEqual([i for i in range(3)], self.collector.store, msg="Not appending multiple items correctly")
 
-    def test_representation(self):
+    def test_str(self):
         self.collector.add([i for i in range(3)])
-        self.assertEqual("[0, 1, 2]", repr(self.collector))
+        self.assertEqual("[0, 1, 2]", str(self.collector))
 
     def test_iterable(self):
         self.collector.add([i for i in range(3)])

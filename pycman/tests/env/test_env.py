@@ -7,9 +7,9 @@
 """
 
 import unittest
-from pycman.env.env import *
 import gym
 import pycman
+
 
 class TestEnv(unittest.TestCase):
 

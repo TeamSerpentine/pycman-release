@@ -7,9 +7,9 @@
 """
 
 import unittest
-from pycman.agent.agent import Agent
-from pycman import pycman
-from pycman.utils.helper import Collector
+import pycman
+from pycman.core.agent.agent import Agent
+from pycman.core.utils.helper import Collector
 
 
 class EmptyAgent(Agent):

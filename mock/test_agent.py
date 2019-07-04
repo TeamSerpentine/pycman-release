@@ -1,7 +1,7 @@
 
 
-from pycman import pycman
-from pycman.agent.agent import Agent
+import pycman
+from pycman.core.agent.agent import Agent
 
 
 class MockAgent(Agent):
@@ -40,4 +40,4 @@ if __name__ == "__main__":
 
     print("Env:  ", pycman.env)
     print("Agent:", pycman.agent)
-    print(f"Loggers:\n{pycman.logger}")
+    # print(f"Loggers:\n{pycman.logger}")

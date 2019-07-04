@@ -6,7 +6,7 @@
     Take a look at the pycman repository or the MIT license for more information on the use and reuse of pycman.
 """
 
-from pycman.env.env_gym import HandlerGym
+from pycman.core.env.env_gym import HandlerGym
 
 import unittest
 
@@ -38,16 +38,16 @@ class TestHandlerGym(unittest.TestCase):
         self.assertEqual(self.game_name, self._gym.game_name,
                          msg="Wrong game ID loaded")
 
-    def test_get_constants(self):
+    def test_info(self):
         # Count the number of allowed actions.
-        self.assertEqual(9, self._gym.info().output_shape)
+        self.assertEqual((9,), self._gym.output_shape)
 
         # See if all the actions are mapped correctly.
         correct = ['NOOP', 'UP', 'RIGHT', 'LEFT', 'DOWN', 'UPRIGHT', 'UPLEFT', 'DOWNRIGHT', 'DOWNLEFT']
         self.assertEqual(correct, self._gym.info().action_meanings)
 
         # input shape
-        self.assertEqual((210, 160, 3), self._gym.info().input_shape)
+        self.assertEqual((210, 160, 3), self._gym.input_shape)
 
 
     def test_pacman_step(self):

@@ -1,5 +1,5 @@
 
-import pycman.env.env_gym as env_gym
+import pycman.core.env.env_gym as env_gym
 
 
 class Collector:
@@ -15,7 +15,7 @@ class Collector:
         return str(self.store)
 
     def __repr__(self):
-        return f"<class '{self.__name__}'>"
+        return f"<class '{Collector.__name__}'>"
 
     def __iter__(self):
         return iter(self.store)

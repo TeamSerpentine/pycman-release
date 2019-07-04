@@ -7,7 +7,7 @@
 """
 
 import unittest
-from pycman.pycman import *
+import pycman
 
 
 class TestPycman(unittest.TestCase):

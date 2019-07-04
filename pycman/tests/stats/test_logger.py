@@ -7,7 +7,6 @@
 """
 
 import unittest
-from pycman.stat.logger import *
 
 
 class TestLogger(unittest.TestCase):

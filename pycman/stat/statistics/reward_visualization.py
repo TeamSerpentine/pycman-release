@@ -1,14 +1,18 @@
 import pandas as pd
 
 # Visualization
+import itertools
 import matplotlib
 matplotlib.use("TkAgg")
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from tkinter import Checkbutton, Button, Tk
 
+# Specify color map
+colors = itertools.cycle(['b', 'r', 'g', 'c', 'm', 'y', 'k', 'w'])
 
-# TODO Fix deleting of plots
+# TODO Fix unchecking of boxes
 class RewardViz:
     def __init__(self, file_name, figsize=(10,5)):
         self._file_name = file_name
@@ -25,7 +29,7 @@ class RewardViz:
 
         # Initialize baseline check buttons
         for num, name in enumerate(self.baselines.columns[1:]):
-            setattr(self, name, Checkbutton(self.window, text=f"{name} Baseline".center(30),
+            setattr(self, name, Checkbutton(self.window, text=f"{name} Baseline".center(20),
                                             command=self.lambda_func(name)))
             getattr(self, name).grid(row=num, column=1)
 
@@ -43,7 +47,7 @@ class RewardViz:
 
     def plot_reward(self):
         # Placeholder plot
-        self.ax.plot(range(5), [1, 5, 8, 4, 23], color='blue', label="Reward")
+        self.ax.plot(range(5), [1, 5, 8, 4, 23], color=next(colors), label="Reward")
         # Format plot
         self.ax.set_title("Reward Over Games", fontsize=16)
         self.ax.set_xlabel('Nr. Games')
@@ -55,7 +59,8 @@ class RewardViz:
     def plot_baseline(self, selection):
         game = 'Pong'  # TODO Take from Logging File
         score = self.baselines[self.baselines['Game'] == game][selection]
-        self.ax.hlines(score, 0, 5, label=f"{selection} baseline")
+        self.ax.hlines(score, 0, 5, label=f"{selection} baseline", linestyle='dotted', color=next(colors))
+        # lines.set_color(cm(len(self.ax.lines) // 3 * 3.0 / NUM_COLORS))
         self.ax.legend()
         self.canvas.draw()
         return self
@@ -77,10 +82,11 @@ if __name__ == '__main__':
     reward = RewardViz(logging_file)
 
     # Configure plot manually
-    reward.plot_reward()
-    reward.plot_baseline("DDQN")
-    reward.save_figure()
+    # reward.plot_reward()
+    # reward.plot_baseline("DDQN")
+    # reward.plot_baseline("A3C LSTM")
+    # reward.save_figure()
 
     # Configure with GUI
-    #reward.display()
+    reward.display()
 

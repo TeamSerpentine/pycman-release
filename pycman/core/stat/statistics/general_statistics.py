@@ -26,19 +26,26 @@ class GeneralStats:
     def summary_stats(self):
         """
         Returns summary statistics over evaluated games
-        - Mean and standard deviation of reward
-        - Average steps
-        -
+        - Game
+        - Total games played
+        - Mean and standard deviation of Reward
+        - Total actions taken
+        - Most popular action
+        - % of most popular action over all actions
         """
         mean_reward = np.mean(self.reward)
         std_reward = np.std(self.reward)
         pop_action = np.argmax(self.action_dist)
+        games_played = len(self.actions)
+
         return f"       Summary for '{self._file_name}':\n\n\
         Game: {self.game}\n\
+        Total Games Played: {games_played}\n\
         Mean Reward: {mean_reward}\n\
         Std Reward: {std_reward}\n\
+        Total Actions Taken: {self.total_actions}\n\
         Most Popular Action: {pop_action}\n\
-        % of all actions: {self.action_dist[pop_action]}"
+        % most popular action of all actions: {self.action_dist[pop_action]}"
 
     def action_distribution(self):
         """

@@ -29,8 +29,8 @@ class HandlerGym(Env):
     """
     __slots__ = ("_env", "game_name", "input_shape", "output_shape", "total_reward", "action_distribution",
                  "action", "action_new", "logger")
-    def __init__(self, game_name):
 
+    def __init__(self, game_name):
         # If the game name is not available in gym, there will be an error
         # and it will return possible alternatives.
         if game_name not in self.get_all_environment_names():
@@ -113,6 +113,8 @@ class HandlerGym(Env):
         self._env.reset()
         self.action = 0
         self.done = False
+        self.total_reward = 0
+        self.action_distribution = np.zeros(self.input_shape, dtype=np.int)
         return self
 
     def render(self):

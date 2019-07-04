@@ -2,6 +2,7 @@ import pandas as pd
 
 # Visualization
 import matplotlib
+
 matplotlib.use("TkAgg")
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg

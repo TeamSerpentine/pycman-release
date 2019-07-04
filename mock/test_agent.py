@@ -14,24 +14,23 @@ class MockAgent(Agent):
         self.games_played = 0
 
     def run(self, env, max_threads=1):
-        for _ in range(2):
+        for _ in range(3):
             env.reset()
             done = False
             while not done:
-                # env.render()
+                #env.render()
                 obs, reward, done, info = env.step(env.random_action())
             self.games_played += 1
 
 
 if __name__ == "__main__":
 
-    agent_a = MockAgent()
-    agent_p = MockAgent()
+    agents = [MockAgent() for _ in range(8)]
 
     pycman.env.gym("Breakout-v0")
-    pycman.agent.add([agent_a, agent_p])
+    pycman.agent.add(agents)
 
-    pycman.run()
+    pycman.run(order='parallel')
     print('')
 
     print("Env:  ", pycman.env)

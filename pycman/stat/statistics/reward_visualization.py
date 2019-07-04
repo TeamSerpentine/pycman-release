@@ -12,6 +12,7 @@ from tkinter import Checkbutton, Button, Tk
 # Specify color map
 colors = itertools.cycle(['b', 'r', 'g', 'c', 'm', 'y', 'k', 'w'])
 
+
 # TODO Fix unchecking of boxes
 class RewardViz:
     def __init__(self, file_name, figsize=(10,5)):

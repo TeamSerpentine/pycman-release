@@ -1,4 +1,3 @@
-
 import pycman.core.env.env_gym as env_gym
 
 
@@ -25,7 +24,6 @@ class Collector:
 
 
 class Env():
-
     environment = None
 
     def gym(self, name):

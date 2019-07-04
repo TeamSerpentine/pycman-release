@@ -49,7 +49,6 @@ class TestHandlerGym(unittest.TestCase):
         # input shape
         self.assertEqual((210, 160, 3), self._gym.input_shape)
 
-
     def test_pacman_step(self):
         """ Evaluate a single step. """
         obs, reward, done, info = self._gym.step(5)

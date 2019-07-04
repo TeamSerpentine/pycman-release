@@ -41,7 +41,7 @@ class TestAgent(unittest.TestCase):
     def test_add_multiple(self):
         """" Tests the pycman.agent.add function for multiple agents. """
         pycman.agent = Collector()
-        pycman.agent.add([EmptyAgent()]*10)
+        pycman.agent.add([EmptyAgent()] * 10)
         assert (len(pycman.agent) == 10)
 
     def test_play_game(self):

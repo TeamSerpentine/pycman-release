@@ -3,11 +3,12 @@ import pandas as pd
 # Visualization
 import itertools
 import matplotlib
-matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from tkinter import Checkbutton, Button, Tk
+
+matplotlib.use("TkAgg")
 
 # Specify color map
 colors = itertools.cycle(['b', 'r', 'g', 'c', 'm', 'y', 'k', 'w'])
@@ -15,7 +16,7 @@ colors = itertools.cycle(['b', 'r', 'g', 'c', 'm', 'y', 'k', 'w'])
 
 # TODO Fix unchecking of boxes
 class RewardViz:
-    def __init__(self, file_name, figsize=(10,5)):
+    def __init__(self, file_name, figsize=(10, 5)):
         self._file_name = file_name
         # self.df = pd.read_csv(self._file_name, delimiter="|")
         self.baselines = pd.read_csv('deep_rl_scores.csv')
@@ -90,4 +91,3 @@ if __name__ == '__main__':
 
     # Configure with GUI
     reward.display()
-

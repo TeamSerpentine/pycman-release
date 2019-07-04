@@ -70,8 +70,6 @@ if __name__ == "__main__":
 
     for type in ["console", "general", "game"]:
         for level in ["debug", "info", "warning", "error", "critical"]:
-            input = dict(reward=5, loss=10, actions={0: 5, 1: 10, 2:40})
+            input = dict(reward=5, loss=10, actions={0: 5, 1: 10, 2: 40})
             getattr(getattr(log, type), level)(json.dumps(input))
         print("")
-
-

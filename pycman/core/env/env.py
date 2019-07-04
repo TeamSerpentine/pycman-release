@@ -22,7 +22,7 @@ class Env(ABC):
         pass
 
     @abstractmethod
-    def info(*args, **kwargs):
+    def info(self):
         """ Gives information about the environment. """
         pass
 

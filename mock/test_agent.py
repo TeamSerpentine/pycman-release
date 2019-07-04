@@ -15,7 +15,6 @@ class MockAgent(Agent):
 
     def run(self, env, max_threads=1):
         for _ in range(3):
-            env.logger.add({"nr_games" : self.games_played})
             env.reset()
             done = False
             while not done:
@@ -31,7 +30,6 @@ if __name__ == "__main__":
 
     pycman.env.gym("Breakout-v0")
     pycman.agent.add(agents)
-    pycman.logger.console.log.setLevel(40)
     pycman.run()
 
     pycman.run(order='parallel')

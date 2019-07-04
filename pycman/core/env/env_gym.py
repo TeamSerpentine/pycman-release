@@ -16,7 +16,6 @@ from collections import namedtuple
 from pycman.core.env import Env
 
 
-
 class HandlerGym(Env):
     """ Handles the call to gym and stores all the variables.
 
@@ -38,7 +37,6 @@ class HandlerGym(Env):
                              format('\n '.join(map(str, alternatives))))
 
         self._env = gym.make(game_name)
-        self.logger = pycman.logger.game
 
         # Store environment variables
         self.game_name = game_name
@@ -102,9 +100,6 @@ class HandlerGym(Env):
         obs, reward, done, info = self._env.step(self.action_new)
 
         self.total_reward += reward
-        if done:
-            self.logger.add(dict(reward=self.total_reward, actions=self.action_distribution.tolist()))
-            self.logger.log.info(self.logger.json())
         return obs, reward, done, info
 
     def reset(self):

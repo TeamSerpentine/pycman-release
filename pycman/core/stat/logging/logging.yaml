@@ -31,7 +31,7 @@ formatters:
     brief:
         format: '[Game: %(game_name)-15s] [%(levelname)-10s] [%(name)-10s] %(message)s'
     game:
-        format: '%(game_name)-15s; %(thread)6d; %(threadName)12s; msg: %(message)s'
+        format: '%(game_name)-15s; %(thread)6d; %(threadName)12s;%(message)s'
         datefmt: '%Y-%m-%d %H:%M:%S'
     general:
         format: 'Game: %(game_name)-15s %(asctime)s %(levelname)-10s %(name)-12s %(thread)6d %(threadName)15s %(message)s'

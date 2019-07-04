@@ -7,7 +7,7 @@ import logging.handlers
 import subprocess
 import yaml
 
-from collections import namedtuple
+from pycman.core.utils.helper import DataLogger
 
 
 class LogFilter(logging.Filter):
@@ -33,16 +33,15 @@ class Logger:
     path = os.path.join(os.path.dirname(__file__), "logging.yaml")
 
     def __init__(self, game_name, loc=path):
+        self.console = DataLogger("console")
+        self.game = DataLogger("game")
+        self.general = DataLogger("general")
+
         if not os.path.exists("log"):
             os.mkdir("log")
 
         self.setupLogging(loc, game_name)
-
-        self.console = logging.getLogger('console')
-        self.general = logging.getLogger('general')
-        self.game = logging.getLogger('game')
-
-        for handler in self.game.parent.handlers:
+        for handler in self.game.game.parent.handlers:
             if hasattr(handler, "doRollover"):
                 handler.doRollover()
 
@@ -73,5 +72,3 @@ if __name__ == "__main__":
             input = dict(reward=5, loss=10, actions={0: 5, 1: 10, 2:40})
             getattr(getattr(log, type), level)(json.dumps(input))
         print("")
-
-

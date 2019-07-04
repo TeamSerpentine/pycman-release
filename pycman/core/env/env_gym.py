@@ -11,9 +11,11 @@ import json
 import gym
 import numpy as np
 
+import pycman
+
 from collections import namedtuple
 from pycman.core.env import Env
-from pycman.core.stat.logging.logger import Logger
+
 
 
 class HandlerGym(Env):
@@ -37,7 +39,7 @@ class HandlerGym(Env):
                              format('\n '.join(map(str, alternatives))))
 
         self._env = gym.make(game_name)
-        self.logger = Logger(game_name)
+        self.logger = pycman.logger(game_name).game
 
         # Store environment variables
         self.game_name = game_name
@@ -48,6 +50,7 @@ class HandlerGym(Env):
         self.total_reward = 0
         self.action_distribution = np.zeros(self.input_shape, dtype=np.int32)
 
+        self.logger.add(dict(reward=self.total_reward, actions=self.action_distribution.tolist()))
         self.done = False
         self.action = 0
         self.action_new = 0
@@ -102,8 +105,7 @@ class HandlerGym(Env):
 
         self.total_reward += reward
         if done:
-            data = dict(reward=self.total_reward, actions=self.action_distribution.tolist())
-            self.logger.game.debug(json.dumps(data))
+            self.logger.game.info(self.logger.json())
         return obs, reward, done, info
 
     def reset(self):

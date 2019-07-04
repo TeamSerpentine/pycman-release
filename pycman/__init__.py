@@ -7,5 +7,5 @@ __all__ = ["env", "agent", "run", "core"]
 
 env = Env()
 agent = Collector()
-# logger = Logger()
+logger = Logger
 run = Run(agent, env).run

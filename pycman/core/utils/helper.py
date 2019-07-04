@@ -1,4 +1,7 @@
 
+import logging
+import json
+
 import pycman.core.env.env_gym as env_gym
 
 
@@ -24,8 +27,7 @@ class Collector:
         return len(self.store)
 
 
-class Env():
-
+class Env:
     environment = None
 
     def gym(self, name):
@@ -36,3 +38,22 @@ class Env():
 
     def info(self):
         return self.environment.info()
+
+
+
+class DataLogger:
+    def __init__(self, log_name):
+        self.data = dict()
+        self.log_name = log_name
+        setattr(self, log_name, logging.getLogger(log_name))
+
+    def add(self, item: dict):
+        for k, v in item.items():
+            self.data[k] = v
+
+    def json(self):
+        return json.dumps(self.data)
+
+    def set_logger(self):
+        for level in ["debug", "info", "warning", "error", "critical"]:
+            setattr(self, level, getattr(getattr(self, self.log_name), level))

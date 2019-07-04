@@ -14,12 +14,14 @@ class MockAgent(Agent):
         self.games_played = 0
 
     def run(self, env, max_threads=1):
+
         for _ in range(3):
             env.reset()
             done = False
             while not done:
                 # env.render()
                 obs, reward, done, info = env.step(env.random_action())
+            env.logger.add({"nr_games" : self.games_played})
             self.games_played += 1
         print('finished')
 

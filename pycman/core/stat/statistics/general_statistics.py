@@ -1,7 +1,6 @@
 import os
 import json
 import numpy as np
-import pandas as pd
 
 # Visualization
 import matplotlib
@@ -12,6 +11,7 @@ import matplotlib.pyplot as plt
 class GeneralStats:
     def __init__(self, file_name):
         self._file_name = file_name
+        # TODO Fix path of logs
         self.log = list(open(f"{os.getcwd()}/{self._file_name}"))
         self.game = [line.split(" ") for line in self.log][0][0]
         self.reward = [json.loads(line.split(";")[-1])['reward'] for line in self.log]
@@ -31,21 +31,21 @@ class GeneralStats:
         - Mean and standard deviation of Reward
         - Total actions taken
         - Most popular action
-        - % of most popular action over all actions
+        - % most popular action of all actions
         """
         mean_reward = np.mean(self.reward)
         std_reward = np.std(self.reward)
         pop_action = np.argmax(self.action_dist)
         games_played = len(self.actions)
 
-        return f"       Summary for '{self._file_name}':\n\n\
+        return f"       Summary For '{self._file_name}':\n\n\
         Game: {self.game}\n\
         Total Games Played: {games_played}\n\
         Mean Reward: {mean_reward}\n\
         Std Reward: {std_reward}\n\
         Total Actions Taken: {self.total_actions}\n\
         Most Popular Action: {pop_action}\n\
-        % most popular action of all actions: {self.action_dist[pop_action]}"
+        % Most Popular Action Of All Actions: {self.action_dist[pop_action]}"
 
     def action_distribution(self):
         """
@@ -62,7 +62,7 @@ class GeneralStats:
 
 
 if __name__ == "__main__":
-    file_name = "game.log.1"
-    stats = GeneralStats(file_name)
+    file = "game.log.1"
+    stats = GeneralStats(file)
     stats.action_distribution()
     print(stats.summary_stats())

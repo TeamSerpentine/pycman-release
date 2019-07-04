@@ -47,9 +47,17 @@ class RewardViz:
         self.canvas.get_tk_widget().grid(row=9, column=0)
 
     def lambda_func(self, name):
+        """
+        Fix for setting attributes
+        of Baseline Checkbuttons
+        """
         return lambda: self.plot_baseline(name)
 
     def plot_reward(self):
+        """
+        Plots the reward over games
+        and adds it to the GUI
+        """
         self.ax.plot(range(len(self.reward)), self.reward, color=next(colors), label="Reward")
         # Format plot
         self.ax.set_title(f"Reward Over Games of '{self._file_name}'", weight="bold", fontsize=20)
@@ -60,6 +68,14 @@ class RewardViz:
         return self
 
     def plot_baseline(self, selection):
+        """
+        Plots a horizontal line
+        from a registered algorithm
+        and adds it to the GUI
+
+        Sources for baselines: https://arxiv.org/pdf/1602.01783.pdf
+        and https://arxiv.org/pdf/1602.04621.pdf
+        """
         # TODO Fix unchecking of boxes
         # TODO Fix if baseline of env is not available
         score = self.baselines[self.baselines['Game'] == self.game][selection]
@@ -78,6 +94,9 @@ class RewardViz:
         return self
 
     def display(self):
+        """
+        Launches the GUI
+        """
         self.window.mainloop()
         return self
 

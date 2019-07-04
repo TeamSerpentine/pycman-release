@@ -29,6 +29,10 @@ class LossViz:
         self.canvas.get_tk_widget().pack()
 
     def plot_loss(self):
+        """
+        Plots the loss over games
+        and adds it to the GUI
+        """
         # Placeholder plot
         self.ax.plot(range(50), range(50)[::-1], color='blue', label="Loss")
         # Format plot
@@ -47,6 +51,9 @@ class LossViz:
         return self
 
     def display(self):
+        """
+        Launches the GUI
+        """
         self.window.mainloop()
         return self
 

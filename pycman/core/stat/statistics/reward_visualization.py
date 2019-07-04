@@ -1,24 +1,26 @@
+import os
+import json
+import itertools
 import pandas as pd
 
 # Visualization
-import itertools
 import matplotlib
-import matplotlib.pyplot as plt
+matplotlib.use("TkAgg")
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from tkinter import Checkbutton, Button, Tk
 
-matplotlib.use("TkAgg")
-
 # Specify color map
-colors = itertools.cycle(['b', 'r', 'g', 'c', 'm', 'y', 'k', 'w'])
+colors = itertools.cycle([*'brgcmykw'])
 
 
-# TODO Fix unchecking of boxes
 class RewardViz:
     def __init__(self, file_name, figsize=(10, 5)):
         self._file_name = file_name
-        # self.df = pd.read_csv(self._file_name, delimiter="|")
+        # TODO Fix Path of logs
+        self.log = list(open(f"{os.getcwd()}/game.log.1"))
+        self.game = [line.split(" ") for line in self.log][0][0]
+        self.reward = [json.loads(line.split(";")[-1])['reward'] for line in self.log]
         self.baselines = pd.read_csv('deep_rl_scores.csv')
         self.window = Tk()
         self.fig = Figure(figsize=figsize)
@@ -38,31 +40,33 @@ class RewardViz:
         # Auxiliary buttons
         self.save_button = Button(self.window, text="Save Figure".center(30),
                                   command=self.save_figure)
-        self.save_button.grid(row=9, column=0)
+        self.save_button.grid(row=10, column=0)
 
         # Initialize Figure
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.window)
-        self.canvas.get_tk_widget().grid(row=8, column=0)
+        self.canvas.get_tk_widget().grid(row=9, column=0)
 
     def lambda_func(self, name):
         return lambda: self.plot_baseline(name)
 
     def plot_reward(self):
-        # Placeholder plot
-        self.ax.plot(range(5), [1, 5, 8, 4, 23], color=next(colors), label="Reward")
+        self.ax.plot(range(len(self.reward)), self.reward, color=next(colors), label="Reward")
         # Format plot
-        self.ax.set_title("Reward Over Games", fontsize=16)
-        self.ax.set_xlabel('Nr. Games')
-        self.ax.set_ylabel('Reward', rotation=0)
+        self.ax.set_title("Reward Over Games", weight="bold", fontsize=20)
+        self.ax.set_xlabel('Nr. Games', fontsize=12)
+        self.ax.set_ylabel('Reward', fontsize=12, rotation=0)
         self.ax.legend()
         self.canvas.draw()
         return self
 
     def plot_baseline(self, selection):
-        game = 'Pong'  # TODO Take from Logging File
-        score = self.baselines[self.baselines['Game'] == game][selection]
-        self.ax.hlines(score, 0, 5, label=f"{selection} baseline", linestyle='dotted', color=next(colors))
-        # lines.set_color(cm(len(self.ax.lines) // 3 * 3.0 / NUM_COLORS))
+        # TODO Fix unchecking of boxes
+        score = self.baselines[self.baselines['Game'] == self.game][selection]
+        print(self.baselines["Game"])
+        print(score)
+        self.ax.hlines(score, 0, len(self.reward),
+                       label=f"{selection} baseline",
+                       linestyle='dotted', color=next(colors))
         self.ax.legend()
         self.canvas.draw()
         return self
@@ -71,7 +75,7 @@ class RewardViz:
         """
         Saves the figure currently on display
         """
-        self.fig.savefig(f'plot_of_{self._file_name}_reward', dpi=dpi)
+        self.fig.savefig(f'plot_of_{self._file_name}_reward.png', dpi=dpi)
         return self
 
     def display(self):
@@ -84,10 +88,10 @@ if __name__ == '__main__':
     reward = RewardViz(logging_file)
 
     # Configure plot manually
-    # reward.plot_reward()
-    # reward.plot_baseline("DDQN")
-    # reward.plot_baseline("A3C LSTM")
-    # reward.save_figure()
+    reward.plot_reward()
+    reward.plot_baseline("DDQN")
+    reward.plot_baseline("A3C LSTM")
+    reward.save_figure()
 
     # Configure with GUI
-    reward.display()
+    # reward.display()

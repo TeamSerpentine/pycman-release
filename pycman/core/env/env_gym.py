@@ -111,6 +111,8 @@ class HandlerGym(Env):
         self._env.reset()
         self.action = 0
         self.done = False
+        self.total_reward = 0
+        self.action_distribution = np.zeros(self.input_shape, dtype=np.int)
         return self
 
     def render(self):

@@ -14,6 +14,7 @@ class GeneralStats:
         self._file_name = file_name
         self.log = list(open(f"{os.getcwd()}/{self._file_name}"))
         self.game = [line.split(" ") for line in self.log][0][0]
+        self.reward = [json.loads(line.split(";")[-1])['reward'] for line in self.log]
         self.actions = [json.loads(line.split(";")[-1])['actions'] for line in self.log]
         self.action_dist = np.sum(self.actions, axis=0)
         # self.action_dist = [12, 10]
@@ -29,14 +30,22 @@ class GeneralStats:
         - Average steps
         -
         """
-        pass
+        mean_reward = np.mean(self.reward)
+        std_reward = np.std(self.reward)
+        pop_action = np.argmax(self.action_dist)
+        return f"       Summary for '{self._file_name}':\n\n\
+        Game: {self.game}\n\
+        Mean Reward: {mean_reward}\n\
+        Std Reward: {std_reward}\n\
+        Most Popular Action: {pop_action}\n\
+        % of all actions: {self.action_dist[pop_action]}"
 
     def action_distribution(self):
         """
         Saves a bar chart of the action distribution
         """
         plt.bar(x=range(len(self.action_dist)), height=self.action_dist)
-        plt.title(f"Action Distribution Of {self._file_name}", weight="bold", fontsize=20)
+        plt.title(f"Action Distribution Of '{self._file_name}'", weight="bold", fontsize=20)
         plt.xlabel("Actions", fontsize=16)
         plt.xticks(range(len(self.action_dist)), fontsize=14)
         plt.yticks(fontsize=14)
@@ -49,3 +58,4 @@ if __name__ == "__main__":
     file_name = "game.log.1"
     stats = GeneralStats(file_name)
     stats.action_distribution()
+    print(stats.summary_stats())

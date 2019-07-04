@@ -18,7 +18,7 @@ class RewardViz:
     def __init__(self, file_name, figsize=(10, 5)):
         self._file_name = file_name
         # TODO Fix Path of logs
-        self.log = list(open(f"{os.getcwd()}/game.log.1"))
+        self.log = list(open(f"{os.getcwd()}/{self._file_name}"))
         self.game = [line.split(" ") for line in self.log][0][0]
         self.reward = [json.loads(line.split(";")[-1])['reward'] for line in self.log]
         self.baselines = pd.read_csv('deep_rl_scores.csv')
@@ -52,7 +52,7 @@ class RewardViz:
     def plot_reward(self):
         self.ax.plot(range(len(self.reward)), self.reward, color=next(colors), label="Reward")
         # Format plot
-        self.ax.set_title("Reward Over Games", weight="bold", fontsize=20)
+        self.ax.set_title(f"Reward Over Games of '{self._file_name}'", weight="bold", fontsize=20)
         self.ax.set_xlabel('Nr. Games', fontsize=12)
         self.ax.set_ylabel('Reward', fontsize=12, rotation=0)
         self.ax.legend()
@@ -61,9 +61,8 @@ class RewardViz:
 
     def plot_baseline(self, selection):
         # TODO Fix unchecking of boxes
+        # TODO Fix if baseline of env is not available
         score = self.baselines[self.baselines['Game'] == self.game][selection]
-        print(self.baselines["Game"])
-        print(score)
         self.ax.hlines(score, 0, len(self.reward),
                        label=f"{selection} baseline",
                        linestyle='dotted', color=next(colors))
@@ -84,7 +83,7 @@ class RewardViz:
 
 
 if __name__ == '__main__':
-    logging_file = "Logging_File_Name"
+    logging_file = "game.log.1"
     reward = RewardViz(logging_file)
 
     # Configure plot manually

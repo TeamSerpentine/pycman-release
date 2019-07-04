@@ -56,8 +56,8 @@ if __name__ == "__main__":
     loss = LossViz(logging_file)
 
     # Configure plot manually
-    # loss.plot_loss()
-    # loss.save_figure()
+    loss.plot_loss()
+    loss.save_figure()
 
     # Configure with GUI
     # loss.display()

@@ -7,11 +7,13 @@
 """
 
 import difflib
+import json
 import gym
 import numpy as np
 
 from collections import namedtuple
 from pycman.core.env import Env
+from pycman.core.stat.logging.logger import Logger
 
 
 class HandlerGym(Env):
@@ -23,8 +25,8 @@ class HandlerGym(Env):
             The game name of the gym environment (this includes version and correct
             capitalization, for example 'MsPacman-v0'.
     """
-    __slots__ = ("_env", "game_name", "input_shape", "output_shape", "total_reward", "total_action_distribution",
-                 "action", "action_new")
+    __slots__ = ("_env", "game_name", "input_shape", "output_shape", "total_reward", "action_distribution",
+                 "action", "action_new", "logger")
     def __init__(self, game_name):
 
         # If the game name is not available in gym, there will be an error
@@ -35,15 +37,16 @@ class HandlerGym(Env):
                              format('\n '.join(map(str, alternatives))))
 
         self._env = gym.make(game_name)
+        self.logger = Logger(game_name)
 
         # Store environment variables
         self.game_name = game_name
-        self.input_shape = self._env.reset().shape
-        self.output_shape = self._get_action_space(self._env),
+        self.output_shape = self._env.reset().shape
+        self.input_shape = self._get_action_space(self._env),
 
         # Set all the default variables
         self.total_reward = 0
-        self.total_action_distribution = np.zeros(self.output_shape)
+        self.action_distribution = np.zeros(self.input_shape, dtype=np.int32)
 
         self.done = False
         self.action = 0
@@ -94,12 +97,13 @@ class HandlerGym(Env):
             self.action_new = action
         self.action = self.action_new
 
+        self.action_distribution[self.action] += 1
         obs, reward, done, info = self._env.step(self.action_new)
 
         self.total_reward += reward
-        if self.done:
-            # TODO log rewards
-            ...
+        if done:
+            data = dict(reward=self.total_reward, actions=self.action_distribution.tolist())
+            self.logger.game.debug(json.dumps(data))
         return obs, reward, done, info
 
     def reset(self):

@@ -30,7 +30,9 @@ class TTSHandler(logging.Handler):
 
 
 class Logger:
-    def __init__(self, game_name, loc="logging.yaml"):
+    path = os.path.join(os.path.dirname(__file__), "logging.yaml")
+
+    def __init__(self, game_name, loc=path):
         if not os.path.exists("log"):
             os.mkdir("log")
 

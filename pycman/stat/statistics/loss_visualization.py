@@ -3,14 +3,16 @@ import pandas as pd
 # Visualization
 import matplotlib
 matplotlib.use("TkAgg")
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 from tkinter import Button, Tk
 
 
 class LossViz:
     def __init__(self, file_name, figsize=(10, 5)):
         self._file_name = file_name
+        # self.df = pd.read_csv(f"Path/self._file_name")
         self.window = Tk()
         self.fig = Figure(figsize=figsize)
         self.ax = self.fig.add_subplot(111)
@@ -51,13 +53,14 @@ class LossViz:
         self.window.mainloop()
         return self
 
+
 if __name__ == "__main__":
     logging_file = "Logging_File_Name"
     loss = LossViz(logging_file)
 
     # Configure plot manually
-    loss.plot_loss()
-    loss.save_figure()
+    # loss.plot_loss()
+    # loss.save_figure()
 
     # Configure with GUI
-    # loss.display()
+    loss.display()

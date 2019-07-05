@@ -31,9 +31,6 @@ class Collector:
         return len(self.store)
 
 
-
-
-
 class DataLogger:
     def __init__(self, log_name):
         self.data = dict()
@@ -45,4 +42,5 @@ class DataLogger:
             self.data[k] = v
 
     def json(self):
+        self.log = logging.getLogger(self.log_name)
         return json.dumps(self.data)

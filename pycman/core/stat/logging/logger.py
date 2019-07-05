@@ -32,11 +32,13 @@ class TTSHandler(logging.Handler):
 class Logger:
     path = os.path.join(os.path.dirname(__file__), "logging.yaml")
 
-    def __init__(self, loc=path):
+    def __init__(self, game_name, loc=path):
         self.console = DataLogger("console")
         self.game = DataLogger("game")
         self.general = DataLogger("general")
         self.path = loc
+
+        self.setup_logging(game_name)
 
         # Perform rollover of file handler
         for handler in self.game.log.handlers:

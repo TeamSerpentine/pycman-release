@@ -37,6 +37,7 @@ class HandlerGym(Env):
                              format('\n '.join(map(str, alternatives))))
 
         self._env = gym.make(game_name)
+        self.logger = pycman.logger.game
 
         # Store environment variables
         self.game_name = game_name
@@ -96,10 +97,15 @@ class HandlerGym(Env):
             self.action_new = action
         self.action = self.action_new
 
-        self.action_distribution[self.action] += 1
         obs, reward, done, info = self._env.step(self.action_new)
 
+        self.action_distribution[self.action] += 1
         self.total_reward += reward
+
+        if done:
+            self.logger.add(dict(reward=self.total_reward, action=self.action_distribution.tolist()))
+            self.logger.log.info(self.logger.json())
+
         return obs, reward, done, info
 
     def reset(self):

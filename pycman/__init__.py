@@ -9,8 +9,7 @@ from pycman.core.utils.decorators import timer
 __all__ = ["env", "agent", "run", "core", "timer"]
 
 
-
 env = EnvSelector()
 agent = Collector()
-logger = Logger()
+logger = Logger("N/A")
 run = Run(agent, env).run

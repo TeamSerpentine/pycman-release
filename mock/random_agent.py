@@ -42,8 +42,8 @@ if __name__ == "__main__":
     #     print(a)
 
     # pycman.run()
-    # pycman.run(order='sequential')
-    pycman.run(order='parallel')
+    pycman.run(order='sequential')
+    # pycman.run(order='parallel')
 
     # for agent in pycman.agent:
     #     print(agent)

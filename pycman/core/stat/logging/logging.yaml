@@ -35,7 +35,7 @@ loggers:
         propogate: no
 
     game:
-        level: WARNING
+        level: INFO
         handlers: [hgame]
         propogate: no
 

@@ -9,10 +9,16 @@ class Collector:
     def __init__(self):
         self.store = []
 
+    def set(self, item):
+        self.store = item
+
     def add(self, item):
         if not hasattr(item, "__iter__"):
             item = [item]
         self.store.extend(item)
+
+    def __replace(self, new_agents):
+        self.store = new_agents
 
     def __str__(self):
         return str(self.store)

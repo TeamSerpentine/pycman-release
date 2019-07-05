@@ -26,16 +26,33 @@ class MockAgent(Agent):
 
 if __name__ == "__main__":
 
-    agents = [MockAgent() for _ in range(8)]
+    agents = [MockAgent() for _ in range(2)]
 
     pycman.env.gym("Breakout-v0")
+    # pycman.agent.add(MockAgent())
+    # pycman.agent.add(MockAgent())
+    # pycman.agent.add(agents)
+    # pycman.agent.set(agents)
     pycman.agent.add(agents)
-    pycman.run()
 
+    # for a in pycman.agent:
+    #     print(a)
+    #
+    # for a in agents:
+    #     print(a)
+
+    # pycman.run()
+    # pycman.run(order='sequential')
     pycman.run(order='parallel')
-    import time
 
-
-    print("Env:  ", pycman.env)
-    print("Agent:", pycman.agent)
-    # print(f"Loggers:\n{pycman.logger}")
+    # for agent in pycman.agent:
+    #     print(agent)
+    #     print(agent.games_played)
+    #
+    # for agent in agents:
+    #     print(agent)
+    #     print(agent.games_played)
+    #
+    # print("Env:  ", pycman.env)
+    # print("Agent:", pycman.agent)
+    # # print(f"Loggers:\n{pycman.logger}")

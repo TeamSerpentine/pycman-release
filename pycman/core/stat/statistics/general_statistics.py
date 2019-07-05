@@ -13,9 +13,10 @@ class GeneralStats:
         self._file_name = file_name
         # TODO Fix path of logs
         self.log = list(open(f"{os.getcwd()}/{self._file_name}"))
-        self.game = [line.split(" ") for line in self.log][0][0]
+        # TODO Clean up self.game
+        self.game = [line.split(" ") for line in self.log][0][0].split('-')[0]
         self.reward = [json.loads(line.split(";")[-1])['reward'] for line in self.log]
-        self.actions = [json.loads(line.split(";")[-1])['actions'] for line in self.log]
+        self.actions = [json.loads(line.split(";")[-1])['action'] for line in self.log]
         self.action_dist = np.sum(self.actions, axis=0)
         # self.action_dist = [12, 10]
         self.total_actions = np.sum(self.action_dist)
@@ -30,8 +31,8 @@ class GeneralStats:
         - Total games played
         - Mean and standard deviation of Reward
         - Total actions taken
-        - Most popular action
-        - % most popular action of all actions
+        - Most picked action
+        - % most picked action of all actions
         """
         mean_reward = np.mean(self.reward)
         std_reward = np.std(self.reward)
@@ -41,28 +42,29 @@ class GeneralStats:
         return f"       Summary For '{self._file_name}':\n\n\
         Game: {self.game}\n\
         Total Games Played: {games_played}\n\
-        Mean Reward: {mean_reward}\n\
-        Std Reward: {std_reward}\n\
+        Mean Reward: {'{:.5n}'.format(mean_reward)}\n\
+        Std Reward: {'{:.5n}'.format(std_reward)}\n\
         Total Actions Taken: {self.total_actions}\n\
-        Most Popular Action: {pop_action}\n\
-        % Most Popular Action Of All Actions: {self.action_dist[pop_action]}"
+        Most picked action: {pop_action}, chosen {'{:.5n}'.format(self.action_dist[pop_action])} % of the time"
 
-    def action_distribution(self):
+    def plot_action_distribution(self, dpi=300):
         """
         Saves a bar chart of the action distribution
         """
-        plt.bar(x=range(len(self.action_dist)), height=self.action_dist)
+        plt.bar(x=range(len(self.action_dist)), height=self.action_dist, color=[*'bgrymckw'])
         plt.title(f"Action Distribution Of '{self._file_name}'", weight="bold", fontsize=20)
         plt.xlabel("Actions", fontsize=16)
         plt.xticks(range(len(self.action_dist)), fontsize=14)
         plt.yticks(fontsize=14)
         plt.ylabel("% of total actions", fontsize=16)
         plt.tight_layout()
-        plt.savefig(f"action_distribution_of_{self._file_name}.png", dpi=300)
+        plt.savefig(f"action_distribution_of_{self._file_name}.png", dpi=dpi)
 
 
 if __name__ == "__main__":
-    file = "game.log.1"
+    file = "game.log"
     stats = GeneralStats(file)
-    stats.action_distribution()
+    # Configure and save plot
+    stats.plot_action_distribution()
+    # Print summary statistics
     print(stats.summary_stats())

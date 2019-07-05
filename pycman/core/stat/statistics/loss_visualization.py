@@ -2,69 +2,32 @@
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from tkinter import Button, Tk
 
 
 class LossViz:
     def __init__(self, file_name, figsize=(10, 5)):
         self._file_name = file_name
-        # TODO Get Loss from Log
-        self.window = Tk()
         self.fig = Figure(figsize=figsize)
         self.ax = self.fig.add_subplot(111)
-
-        # Initialize main visualization buttons
-        self.button = Button(self.window, text="Loss Visualization".center(30),
-                             command=self.plot_loss)
-        self.button.pack()
-
-        # Auxiliary buttons
-        self.save_button = Button(self.window, text="Save Figure".center(30),
-                                  command=self.save_figure)
-        self.save_button.pack()
-
-        # Initialize Figure
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self.window)
-        self.canvas.get_tk_widget().pack()
 
     def plot_loss(self):
         """
         Plots the loss over games
-        and adds it to the GUI
+        and saves the plot as a png
         """
         # Placeholder plot
-        self.ax.plot(range(50), range(50)[::-1], color='blue', label="Loss")
+        # TODO Get Loss from Log
+        self.ax.plot(range(50), range(50)[::-1], color="blue", label="Loss")
         # Format plot
-        self.ax.set_title("Loss Over Games", weight="bold", fontsize=20)
+        self.ax.set_title(f"Loss Over Games of '{self._file_name}'", weight="bold", fontsize=20)
         self.ax.set_xlabel("Nr. Games", fontsize=12)
         self.ax.set_ylabel("Loss", fontsize=12, rotation=0)
-        self.ax.legend()
-        self.canvas.draw()
-        return self
-
-    def save_figure(self):
-        """
-        Saves the figure currently on display
-        """
-        self.fig.savefig(f'plot_of_{self._file_name}_loss.png', dpi=300)
-        return self
-
-    def display(self):
-        """
-        Launches the GUI
-        """
-        self.window.mainloop()
+        self.fig.savefig(f"plot_of_loss_{self._file_name}.png", dpi=300)
         return self
 
 
 if __name__ == "__main__":
-    logging_file = "Logging_File_Name"
+    logging_file = "game.log.1"
     loss = LossViz(logging_file)
-
-    # Configure plot manually
+    # Configure and save plot
     loss.plot_loss()
-    loss.save_figure()
-
-    # Configure with GUI
-    # loss.display()

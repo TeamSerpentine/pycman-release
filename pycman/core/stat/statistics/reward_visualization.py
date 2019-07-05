@@ -19,7 +19,8 @@ class RewardViz:
         self._file_name = file_name
         # TODO Fix Path of logs
         self.log = list(open(f"{os.getcwd()}/{self._file_name}"))
-        self.game = [line.split(" ") for line in self.log][0][0]
+        # TODO Clean up self.game
+        self.game = [line.split(" ") for line in self.log][0][0].split('-')[0]
         self.reward = [json.loads(line.split(";")[-1])['reward'] for line in self.log]
         self.baselines = pd.read_csv('deep_rl_scores.csv')
         self.window = Tk()
@@ -29,8 +30,9 @@ class RewardViz:
         # Initialize main visualization buttons
         self.button = Button(self.window, text="Reward Visualization".center(30),
                              command=self.plot_reward)
-        self.button.grid(row=0, column=0)
+        self.button.grid(row=5, column=0)
 
+        # TODO Place All Baseline buttons right from plot
         # Initialize baseline check buttons
         for num, name in enumerate(self.baselines.columns[1:]):
             setattr(self, name, Checkbutton(self.window, text=f"{name} Baseline".center(20),
@@ -90,7 +92,7 @@ class RewardViz:
         """
         Saves the figure currently on display
         """
-        self.fig.savefig(f'plot_of_{self._file_name}_reward.png', dpi=dpi)
+        self.fig.savefig(f'plot_of_reward_{self._file_name}.png', dpi=dpi)
         return self
 
     def display(self):
@@ -102,14 +104,14 @@ class RewardViz:
 
 
 if __name__ == '__main__':
-    logging_file = "game.log.1"
+    logging_file = "game.log"
     reward = RewardViz(logging_file)
 
     # Configure plot manually
-    reward.plot_reward()
-    reward.plot_baseline("DDQN")
-    reward.plot_baseline("A3C LSTM")
-    reward.save_figure()
+    # reward.plot_reward()
+    # reward.plot_baseline("DDQN")
+    # reward.plot_baseline("A3C LSTM")
+    # reward.save_figure()
 
     # Configure with GUI
-    # reward.display()
+    reward.display()

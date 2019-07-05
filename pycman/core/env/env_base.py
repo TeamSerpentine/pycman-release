@@ -2,7 +2,6 @@
 
 import numpy as np
 
-from collections import namedtuple
 from abc import ABC, abstractmethod
 
 

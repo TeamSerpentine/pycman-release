@@ -1,0 +1,45 @@
+
+version: 1
+disable_existing_loggers: false
+
+handlers:
+    hconsole:
+        class : logging.StreamHandler
+        formatter: brief
+        stream  : ext://sys.stdout
+
+    hgame:
+        class: logging.handlers.RotatingFileHandler
+        level: INFO
+        formatter: fgame
+        filename: log/game.log
+        maxBytes: 10485760  # 10 MB
+        backupCount: 5
+        encoding: utf8
+
+formatters:
+    brief:
+        format: '[Game: %(game_name)-15s] [%(levelname)-10s] [%(name)-10s] %(message)s'
+    fgame:
+        format: '%(game_name)-15s; %(thread)6d; %(threadName)12s;%(message)s'
+        datefmt: '%Y-%m-%d %H:%M:%S'
+    fgeneral:
+        format: 'Game: %(game_name)-15s %(asctime)s %(levelname)-10s %(name)-12s %(thread)6d %(threadName)15s %(message)s'
+        datefmt: '%Y-%m-%d %H:%M:%S'
+
+
+loggers:
+    console:
+        level: INFO
+        handlers: [hconsole]
+        propogate: no
+
+    game:
+        level: INFO
+        handlers: [hgame]
+        propogate: no
+
+    general:
+        level: INFO
+        handlers: ["hconsole", "hgame"]
+        propogate: no

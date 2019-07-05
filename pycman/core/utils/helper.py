@@ -2,8 +2,6 @@
 import logging
 import json
 
-import pycman.core.env.env_gym as env_gym
-
 
 class Collector:
     def __init__(self):
@@ -33,19 +31,7 @@ class Collector:
         return len(self.store)
 
 
-class Env:
-    environment = None
-    game_name = None
 
-    def gym(self, name):
-        self.environment = env_gym.HandlerGym(name)
-        self.game_name = name
-
-    def get(self):
-        return self.environment
-
-    def info(self):
-        return self.environment.info()
 
 
 class DataLogger:

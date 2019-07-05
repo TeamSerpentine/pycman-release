@@ -29,7 +29,6 @@ class Run:
         return info[0]
 
     def run_parallel(self):
-
         envs = [deepcopy(self.env.get()) for _ in self.agents]
 
         args = []
@@ -40,11 +39,12 @@ class Run:
         with Pool(len(self.agents)) as p:
             result = p.map(self.start_worker, args)
 
-        # print(result)
+        print(self.agents)
         for idx, a in enumerate(result):
-            self.agents.store[idx] = a
-        # for a in agents:
-        #     print("parallel:", a.games_played)
+            #i, j = self.agents.get_weird_indices(idx)
+            self.agents[idx] = a
+            #self.agents.nested_store[i][j] = a
+
         return
 
 

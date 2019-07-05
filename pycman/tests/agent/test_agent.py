@@ -39,13 +39,13 @@ class TestAgent(unittest.TestCase):
     def test_add(self):
         """ Tests the pycman.agent.add function. """
         reset()
-        pycman.agent.set([EmptyAgent()])
+        pycman.agent.add([EmptyAgent()])
         assert (len(pycman.agent) == 1)
 
     def test_add_multiple(self):
         """" Tests the pycman.agent.add function for multiple agents. """
         reset()
-        pycman.agent.set([EmptyAgent()] * 10)
+        pycman.agent.add([EmptyAgent()] * 10)
         assert (len(pycman.agent) == 10)
 
     def test_play_game(self):
@@ -54,11 +54,11 @@ class TestAgent(unittest.TestCase):
 
         agents = [EmptyAgent()]
         pycman.env.gym("Breakout-v0")
-        pycman.agent.set(agents)
+        pycman.agent.add(agents)
         pycman.run()
 
-        assert pycman.agent.store[0].finished
-        assert pycman.agent.store[0].games_played == 3
+        assert pycman.agent[0].finished
+        assert pycman.agent[0].games_played == 3
 
     def test_play_game_multi(self):
         """" Run a game and see if it actually finishes. """
@@ -66,7 +66,7 @@ class TestAgent(unittest.TestCase):
 
         agents = [EmptyAgent() for _ in range(4)]
         pycman.env.gym("Breakout-v0")
-        pycman.agent.set(agents)
+        pycman.agent.add(agents)
         pycman.run(order='parallel')
 
         result_agents = pycman.agent
@@ -84,7 +84,7 @@ class TestAgent(unittest.TestCase):
 
         agents = [EmptyAgent() for _ in range(4)]
         pycman.env.gym("Breakout-v0")
-        pycman.agent.set(agents)
+        pycman.agent.add(agents)
         pycman.run(order='sequential')
 
         for a in pycman.agent:
@@ -97,7 +97,7 @@ class TestAgent(unittest.TestCase):
 
         agents = [EmptyAgent() for _ in range(4)]
         pycman.env.gym("Breakout-v0")
-        pycman.agent.set(agents)
+        pycman.agent.add(agents)
         pycman.run(order='sequential')
 
         for a, b in zip(pycman.agent, agents):
@@ -109,7 +109,7 @@ class TestAgent(unittest.TestCase):
 
         agents = [EmptyAgent() for _ in range(4)]
         pycman.env.gym("Breakout-v0")
-        pycman.agent.set(agents)
+        pycman.agent.add(agents)
         pycman.run(order='parallel')
 
         for a, b in zip(pycman.agent, agents):

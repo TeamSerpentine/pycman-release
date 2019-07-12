@@ -1,7 +1,7 @@
 
 import pycman.core.env.env_gym as env_gym
 
-from  pycman.core.stat.logging.logger import Logger
+from pycman.core.stat.logging.logger import Logger
 
 
 class EnvSelector:

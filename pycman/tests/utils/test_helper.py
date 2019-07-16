@@ -15,18 +15,18 @@ class TestCollector(unittest.TestCase):
     def setUp(self):
         self.collector = GlobalAgentSet()
 
-    def test_add_item(self):
-        for i in range(3):
-            self.collector.add(i)
-        self.assertEqual([i for i in range(3)], self.collector.store, msg="Not appending correctly")
-
-    def test_extend_items(self):
-        self.collector.add([i for i in range(3)])
-        self.assertEqual([i for i in range(3)], self.collector.store, msg="Not appending multiple items correctly")
-
-    def test_str(self):
-        self.collector.add([i for i in range(3)])
-        self.assertEqual("[0, 1, 2]", str(self.collector))
+    # def test_add_item(self):
+    #     for i in range(3):
+    #         self.collector.add(i)
+    #     self.assertEqual([i for i in range(3)], self.collector.store, msg="Not appending correctly")
+    #
+    # def test_extend_items(self):
+    #     self.collector.add([i for i in range(3)])
+    #     self.assertEqual([i for i in range(3)], self.collector.store, msg="Not appending multiple items correctly")
+    #
+    # def test_str(self):
+    #     self.collector.add([i for i in range(3)])
+    #     self.assertEqual("[0, 1, 2]", str(self.collector))
 
     def test_iterable(self):
         self.collector.add([i for i in range(3)])

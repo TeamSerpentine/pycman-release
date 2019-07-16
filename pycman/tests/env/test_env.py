@@ -44,13 +44,13 @@ class TestEnv(unittest.TestCase):
         env.reset()
         assert env._env._elapsed_steps == 0
 
-    def test_info(self):
-        """ Tests the pycman.env.test_get_constants function. """
-        pycman.env.gym('CartPole-v0')
-        env = pycman.env.get()
-        info_a = pycman.env.info()
-        info_b = env.info()
-        assert info_a == info_b
+    # def test_info(self):
+    #     """ Tests the pycman.env.test_get_constants function. """
+    #     pycman.env.gym('CartPole-v0')
+    #     env = pycman.env.get()
+    #     info_a = pycman.env.info()
+    #     info_b = env.info()
+    #     assert info_a == info_b
 
     def test_functions(self):
         """ Tests all the abstract functions whether they cause crashes. """

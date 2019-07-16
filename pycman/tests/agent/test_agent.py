@@ -29,7 +29,7 @@ class EmptyAgent(Agent):
 
 
 def reset():
-    pycman.env = pycman.core.agent.global_agents.Env()
+    pycman.env = pycman.core.env.global_env.GlobalEnv()
     pycman.agent = pycman.core.agent.global_agents.GlobalAgentSet()
     pycman.run = pycman.core.run.run.Run(pycman.agent, pycman.env).run
 

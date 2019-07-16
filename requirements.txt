@@ -4,7 +4,7 @@
 
 absl-py==0.7.1
 astor==0.8.0
-atari-py==1.2.0
+atari-py
 certifi==2019.6.16
 chardet==3.0.4
 future==0.17.1

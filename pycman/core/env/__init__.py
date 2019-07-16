@@ -1,6 +1,6 @@
 
 from .env_base import Env
-from .env_selector import EnvSelector
+from .global_env import GlobalEnv
 
 
-__all__ = ["Env", "EnvSelector"]
+__all__ = ["Env", "GlobalEnv"]

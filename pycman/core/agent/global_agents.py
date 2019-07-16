@@ -3,7 +3,9 @@ import logging
 import json
 
 
-class Collector:
+class GlobalAgentSet:
+    """ Global collection of agent instances. """
+
     def __init__(self):
         self.store = []
         self.nested_store = []
@@ -34,7 +36,7 @@ class Collector:
         return str(self.store)
 
     def __repr__(self):
-        return f"<class '{Collector.__name__}'>"
+        return f"<class '{GlobalAgentSet.__name__}'>"
 
     def __iter__(self):
         return iter([agent for agents in self.nested_store for agent in agents])

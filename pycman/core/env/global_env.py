@@ -4,9 +4,9 @@ import pycman.core.env.env_gym as env_gym
 from pycman.core.stat.logging.logger import Logger
 
 
-class EnvSelector:
+class GlobalEnv:
     """ Wrapper for all the different environment wrappers. Global access point for the currently
-        selected environment in Pycman
+        selected environment in Pycman.
     """
 
     environment = None

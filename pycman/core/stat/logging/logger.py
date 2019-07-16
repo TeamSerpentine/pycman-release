@@ -7,7 +7,7 @@ import logging.handlers
 import subprocess
 import yaml
 
-from pycman.core.utils.helper import DataLogger
+from pycman.core.agent.global_agents import DataLogger
 
 
 class LogFilter(logging.Filter):

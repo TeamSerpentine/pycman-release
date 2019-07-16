@@ -4,7 +4,7 @@ import pycman
 from pycman.core.agent.agent import Agent
 
 
-class MockAgent(Agent):
+class RandomAgent(Agent):
     def __init__(self):
         self.output_shape = ...
         self.input_shape = ...
@@ -26,15 +26,15 @@ class MockAgent(Agent):
 
 if __name__ == "__main__":
 
-    agents = [MockAgent() for _ in range(2)]
-    agents2 = [MockAgent() for _ in range(2)]
+    agents = [RandomAgent() for _ in range(2)]
+    agents2 = [RandomAgent() for _ in range(2)]
 
     pycman.env.gym("Breakout-v0")
     pycman.agent.add(agents)
     pycman.agent.add(agents2)
 
-    ### test van ewoud
-    agent42 = [MockAgent()]
+    # test van ewoud
+    agent42 = [RandomAgent()]
     pycman.agent.add(agent42)
     b = pycman.agent
 
@@ -50,7 +50,6 @@ if __name__ == "__main__":
     # pycman.run()
     pycman.run(order='sequential')
     # pycman.run(order='parallel')
-
 
     for agent in pycman.agent:
         print(agent)

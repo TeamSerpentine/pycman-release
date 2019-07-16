@@ -24,10 +24,6 @@ class Run:
             agent.run(env)
             env.close()
 
-    def start_worker(self, info):
-        info[0].run(info[1])
-        return info[0]
-
     def run_parallel(self):
         envs = [deepcopy(self.env.get()) for _ in self.agents]
 
@@ -44,8 +40,12 @@ class Run:
             #i, j = self.agents.get_weird_indices(idx)
             self.agents[idx] = a
             #self.agents.nested_store[i][j] = a
-
         return
+
+    @staticmethod
+    def start_worker(info):
+        info[0].run(info[1])
+        return info[0]
 
 
     # def run_parallel(self):
@@ -64,5 +64,5 @@ class Run:
     #     # Ensure all processes have finished execution
     #     for p in processes:
     #         p.join()
-
-        return
+    #
+    #    return

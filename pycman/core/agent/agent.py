@@ -12,5 +12,6 @@ class Agent(ABC):
         """ Run the agent on the given environment until completion. """
         pass
 
-    def get_environment_info(self, env: pycman.env):
+    @staticmethod
+    def get_environment_info(env: pycman.env):
         return env.get_constants()

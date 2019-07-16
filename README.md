@@ -9,4 +9,4 @@ Serpentine is a student-founded AI E-Sports team based at the Technical Universi
 
 # Getting started
 The unit tests can be run te see if your installation has been successful. Take a look at the examples folder
-to see implementations of agents and how they interface with __pycman__.
+to see implementations of agents and how they interface with __pycman__. Good luck!

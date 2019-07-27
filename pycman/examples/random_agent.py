@@ -26,46 +26,8 @@ class RandomAgent(Agent):
 
 if __name__ == "__main__":
 
-    agents = [RandomAgent() for _ in range(2)]
-    agents2 = [RandomAgent() for _ in range(2)]
+    agents = [RandomAgent() for _ in range(8)]
 
     pycman.env.gym("Breakout-v0")
     pycman.agent.add(agents)
-    pycman.agent.add(agents2)
-
-    # test van ewoud
-    agent42 = [RandomAgent()]
-    pycman.agent.add(agent42)
-    b = pycman.agent
-
-    for a in pycman.agent:
-        print(a)
-
-    for a in agents:
-        print(a)
-
-    for a in agents2:
-        print(a)
-
-    # pycman.run()
     pycman.run(order='sequential')
-    # pycman.run(order='parallel')
-
-    for agent in pycman.agent:
-        print(agent)
-        print(agent.games_played)
-
-    for agent in agents:
-        print(agent)
-        print(agent.games_played)
-
-    for agent in agents2:
-        print(agent)
-        print(agent.games_played)
-
-    print(agent42[0])
-    print(agent42[0].games_played)
-
-    # print("Env:  ", pycman.env)
-    # print("Agent:", pycman.agent)
-    # # print(f"Loggers:\n{pycman.logger}")

@@ -7,13 +7,13 @@
 """
 
 import unittest
-from pycman.core.agent.global_agents import GlobalAgentSet
+from pycman.core.session.session import AgentSet
 
 
 class TestCollector(unittest.TestCase):
 
     def setUp(self):
-        self.collector = GlobalAgentSet()
+        self.collector = AgentSet()
 
     # def test_add_item(self):
     #     for i in range(3):

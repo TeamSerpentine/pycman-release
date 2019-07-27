@@ -9,8 +9,6 @@
 import unittest
 import pycman
 from pycman.core.agent.agent import Agent
-from pycman.core.agent.global_agents import GlobalAgentSet
-
 
 class EmptyAgent(Agent):
 
@@ -29,9 +27,8 @@ class EmptyAgent(Agent):
 
 
 def reset():
-    pycman.env = pycman.core.env.global_env.GlobalEnv()
-    pycman.agent = pycman.core.agent.global_agents.GlobalAgentSet()
-    pycman.run = pycman.core.run.run.Run(pycman.agent, pycman.env).run
+    pycman.env.clear()
+    pycman.agent.clear()
 
 
 class TestAgent(unittest.TestCase):

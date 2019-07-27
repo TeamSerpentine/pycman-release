@@ -10,8 +10,6 @@ import difflib
 import gym
 import numpy as np
 
-import pycman
-
 from collections import namedtuple
 from pycman.core.env import Env
 
@@ -37,7 +35,6 @@ class GymWrapper(Env):
                              format('\n '.join(map(str, alternatives))))
 
         self._env = gym.make(game_name)
-        self.logger = pycman.logger.game
 
         # Store environment variables
         self.game_name = game_name
@@ -101,10 +98,6 @@ class GymWrapper(Env):
 
         self.action_distribution[self.action] += 1
         self.total_reward += reward
-
-        if done:
-            self.logger.add(dict(reward=self.total_reward, action=self.action_distribution.tolist()))
-            self.logger.log.info(self.logger.json())
 
         return obs, reward, done, info
 

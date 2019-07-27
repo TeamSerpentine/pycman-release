@@ -1,15 +1,13 @@
-
-from pycman.core.run.run import Run
-from pycman.core.stat.logging.logger import Logger
-from pycman.core.agent.global_agents import GlobalAgentSet
-from pycman.core.env.global_env import GlobalEnv
 from pycman.core.utils.decorators import timer
+from pycman.core.session.session import Session, AgentSet, SelectedEnv
+from pycman.core.env.env_base import Env
 
 
-__all__ = ["env", "agent", "run", "core", "timer"]
+__all__ = ["env", "agent", "session", "timer"]
 
 
-env = GlobalEnv()
-agent = GlobalAgentSet()
-logger = Logger("N/A")
-run = Run(agent, env).run
+env = SelectedEnv()
+agent = AgentSet()
+session = Session(agent, env)
+run = session.run
+

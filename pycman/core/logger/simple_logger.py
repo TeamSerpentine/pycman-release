@@ -5,24 +5,24 @@ class Log:
     _game_log = None
     # _parallel_mode = False
 
-    def __init__(self, _file_name: str, id=None):
-        # self.parallel = ParallelLog(_file_name)
-        # self.par = MultiLog()
+    def __init__(self, env, _file_name: str, id=None):
+        self._env = env # TODO: Use for future logging improvements!
+
         if id is not None:
             self._file_name = _file_name + '-' + str(id) + '.csv'
         else:
             self._file_name = _file_name + '.csv'
 
-    def line(self, *args, caller=None):
+    def line(self, caller, *args):
         """Writes data to a single line. """
-        if caller is not None and caller.part_of_parallel_pool:
+        if caller.part_of_parallel_pool:
             self._parallel_line(caller, *args)
             return
 
         if self._line_log is None:
             self._line_log = open(self._file_name, "w+")
 
-        self._line_log.write(";".join([str(x) for x in args])+'\n')
+        self._line_log.write(str(caller.agent_id)+";"+";".join([str(x) for x in args])+'\n')
 
     def close(self):
         if self._line_log is not None:
@@ -32,8 +32,8 @@ class Log:
 
     def _parallel_line(self, caller, *args):
         """Writes data to a single line. """
-        if caller is None:
-            raise AttributeError("One must specify the calling agent (caller=None) when performing a parallel run.")
+        # if caller is None:
+        #     raise AttributeError("One must specify the calling agent (caller=None) when performing a parallel run.")
 
         if self._line_log is None:
             self._line_log = open(self._file_name[:-4] + str(id(caller)) + '.csv', "w+")

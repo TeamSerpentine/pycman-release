@@ -16,7 +16,7 @@ class AdvancedAgent(pycman.AgentBase):
                 obs, reward, done, info = env.step(env.random_action())
                 rewards.append(reward)
             self.games_played += 1
-            pycman.log.line(self.number, self.games_played, sum(rewards), caller=self)
+            pycman.log.line(self, self.number, self.games_played, sum(rewards))
 
 
 if __name__ == "__main__":
@@ -39,9 +39,9 @@ if __name__ == "__main__":
     pycman.agent.add(agents2)
     print(len(pycman.agent))
     #pycman.run(order='parallel')
-    #pycman.run(order='sequential')
+    pycman.run(order='sequential')
 
-    pycman.run(order='parallel')
+    #pycman.run(order='parallel')
 
     # TODO: Raise error if no agents are present.
     # TODO: RAISE error if environment is not set.

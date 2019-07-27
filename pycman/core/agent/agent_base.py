@@ -8,6 +8,7 @@ from abc import ABC, abstractmethod
 class AgentBase(ABC):
 
     part_of_parallel_pool = False
+    agent_id = float('nan')
 
     @abstractmethod
     def run(self, env):

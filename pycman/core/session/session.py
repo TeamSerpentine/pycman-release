@@ -69,6 +69,7 @@ class _AgentSet:
     def __init__(self):
         self._nested_store = []
         self._nested_indices = []
+        self._unique_id = 0
 
     def add(self, item):
         """"Adds an agent to the current list of agents."""
@@ -77,6 +78,10 @@ class _AgentSet:
         self._nested_store.append(item)
         new_indices = [len(self) + i for i in range(len(item))]
         self._nested_indices.append(new_indices)
+
+        for agent in item:
+            agent.agent_id = self._unique_id
+            self._unique_id += 1
 
     def clear(self):
         """"Removed all agents from the list."""

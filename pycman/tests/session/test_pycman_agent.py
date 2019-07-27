@@ -16,22 +16,48 @@ class TestAgentSet(unittest.TestCase):
         self.set = _AgentSet()
 
     def test_add_item(self):
-        for i in range(3):
+        agents = []
+        for _ in range(3):
+            a = type('AgentBase', (), {})()
+            a.part_of_parallel_pool = False
+            a.agent_id = 0
+            agents.append(a)
+
+        for i in agents:
             self.set.add([i])
 
-        for x, y in zip(self.set, range(3)):
+        for x, y in zip(self.set, agents):
             self.assertEqual([x], [y], msg="Not appending correctly")
 
     def test_extend_items(self):
-        self.set.add([0, 1, 2])
-        self.assertEqual([[0, 1, 2]], self.set._nested_store, msg="Not appending multiple items correctly")
+        agents = []
+        for _ in range(3):
+            a = type('AgentBase', (), {})()
+            a.part_of_parallel_pool = False
+            a.agent_id = 0
+            agents.append(a)
+
+        self.set.add(agents)
+        self.assertEqual([agents], self.set._nested_store, msg="Not appending multiple items correctly")
 
     def test_str(self):
-        self.set.add([i for i in range(3)])
-        self.assertEqual("[[0, 1, 2]]", str(self.set))
+
+        a = type('AgentBase', (), {})()
+        a.part_of_parallel_pool = False
+        a.agent_id = 0
+
+        self.set.add([a for _ in range(3)])
+        str(self.set)
 
     def test_iterable(self):
-        self.set.add([i for i in range(3)])
+        agents = []
+        for _ in range(3):
+            a = type('AgentBase', (), {})()
+            a.part_of_parallel_pool = False
+            a.agent_id = 0
+            agents.append(a)
+
+        self.set.add(agents)
         for _ in self.set:
             pass
 

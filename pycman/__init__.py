@@ -9,7 +9,7 @@ __all__ = ["env", "agent", "run", "EnvBase", "AgentBase"]
 # Creating global classes
 env = _SelectedEnv()
 agent = _AgentSet()
-log = Log("pycman_log")
+log = Log(env, "pycman_log")
 __session = _Session(agent, env, log)
 
 # Function facade

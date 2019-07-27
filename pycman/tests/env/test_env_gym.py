@@ -6,7 +6,7 @@
     Take a look at the pycman repository or the MIT license for more information on the use and reuse of pycman.
 """
 
-from pycman.core.env.env_gym import GymWrapper
+from pycman.core.env.env_gym import _GymWrapper
 
 import unittest
 
@@ -16,17 +16,17 @@ class TestHandlerGym(unittest.TestCase):
     def setUp(self):
         """ Set up a correct environment.  """
         self.game_name = "MsPacman-v0"
-        self._gym = GymWrapper(self.game_name)
+        self._gym = _GymWrapper(self.game_name)
 
     def test_failed_setup(self):
         """ Check for an empty input.  """
         with self.assertRaises(ValueError):
-            GymWrapper("")
+            _GymWrapper("")
 
     def test_failed_setup_2(self):
         """ Check if you get correct alternatives"""
         try:
-            GymWrapper("MsPacman")
+            _GymWrapper("MsPacman")
         except ValueError as err:
             # Note need extra space in front of the game names
             expected_alternatives = [" MsPacman-v4", " MsPacman-v0"]

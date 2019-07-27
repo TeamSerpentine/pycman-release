@@ -8,10 +8,10 @@
 
 import unittest
 import pycman
-from pycman.core.agent.agent import Agent
+from pycman.core.agent.agent_base import AgentBase
 
 
-class EmptyAgent(Agent):
+class EmptyAgent(AgentBase):
 
     def __init__(self):
         self.games_played = 0

@@ -11,10 +11,10 @@ import gym
 import numpy as np
 
 from collections import namedtuple
-from pycman.core.env import Env
+from pycman.core.env import EnvBase
 
 
-class GymWrapper(Env):
+class _GymWrapper(EnvBase):
     """ Handles the call to gym and stores all the variables.
 
         Parameters

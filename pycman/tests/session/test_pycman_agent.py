@@ -7,13 +7,13 @@
 """
 
 import unittest
-from pycman.core.session.session import AgentSet
+from pycman.core.session._session import _AgentSet
 
 
 class TestAgentSet(unittest.TestCase):
 
     def setUp(self):
-        self.set = AgentSet()
+        self.set = _AgentSet()
 
     def test_add_item(self):
         for i in range(3):
@@ -24,7 +24,7 @@ class TestAgentSet(unittest.TestCase):
 
     def test_extend_items(self):
         self.set.add([0, 1, 2])
-        self.assertEqual([[0, 1, 2]], self.set.nested_store, msg="Not appending multiple items correctly")
+        self.assertEqual([[0, 1, 2]], self.set._nested_store, msg="Not appending multiple items correctly")
 
     def test_str(self):
         self.set.add([i for i in range(3)])
@@ -32,8 +32,8 @@ class TestAgentSet(unittest.TestCase):
 
     def test_iterable(self):
         self.set.add([i for i in range(3)])
-        for i in self.set:
-            ...
+        for _ in self.set:
+            pass
 
 
 if __name__ == "__main__":

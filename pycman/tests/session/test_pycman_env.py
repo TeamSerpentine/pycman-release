@@ -7,7 +7,6 @@
 """
 
 import unittest
-from pycman.core.session.session import AgentSet
 
 
 class TestPycmanEnv(unittest.TestCase):

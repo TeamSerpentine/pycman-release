@@ -1,14 +1,15 @@
-from pycman.core.utils.decorators import timer
-from pycman.core.session.session import Session, AgentSet, SelectedEnv
-from pycman.core.env.env_base import Env
+from pycman.core.utils.decorators import _timer
+from pycman.core.session._session import _Session, _AgentSet, _SelectedEnv
+from pycman.core.env.env_base import EnvBase
+from pycman.core.agent.agent_base import AgentBase
 
 
-__all__ = ["env", "agent"]
+__all__ = ["env", "agent", "run", "clear", "EnvBase", "AgentBase"]
 
 # Creating global classes
-env = SelectedEnv()
-agent = AgentSet()
-__session = Session(agent, env)
+env = _SelectedEnv()
+agent = _AgentSet()
+__session = _Session(agent, env)
 
 # Function facade
 run = __session.run

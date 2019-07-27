@@ -1,16 +1,16 @@
-from ..env.env_gym import GymWrapper
-from pycman.core.utils.decorators import timer
-from pycman.core.session.run_options import _run_parallel, _run_sequential
+from ..env.env_gym import _GymWrapper
+from pycman.core.utils.decorators import _timer
+from pycman.core.session.run_procedures import _run_parallel, _run_sequential
 
 
-class Session:
+class _Session:
 
     def __init__(self, agents, env):
         self.agents = agents
         self.env = env
         pass
 
-    @timer
+    @_timer
     def run(self, order='sequential'):
         if order == 'sequential':
             _run_sequential(self.agents, self.env)
@@ -22,7 +22,7 @@ class Session:
         self.env.clear()
 
 
-class SelectedEnv:
+class _SelectedEnv:
     """ Wrapper for all the different environment wrappers. Global access point for the currently
         selected environment in Pycman.
     """
@@ -35,7 +35,7 @@ class SelectedEnv:
         self._game_name = None
 
     def gym(self, name):
-        self._environment = GymWrapper(name)
+        self._environment = _GymWrapper(name)
         self._game_name = name
 
     def get(self):
@@ -45,45 +45,45 @@ class SelectedEnv:
         return self._environment.info()
 
 
-class AgentSet:
+class _AgentSet:
     """ Global collection of agent instances. """
 
     def __init__(self):
-        self.nested_store = []
+        self._nested_store = []
 
     def add(self, item):
         if not isinstance(item, list):
             raise TypeError("Agent must be contained inside a list!")
-        self.nested_store.append(item)
+        self._nested_store.append(item)
 
     def clear(self):
-        self.nested_store = []
+        self._nested_store = []
 
     def __get_complex_index(self, idx):
         nr = 0  # elements seen
         i = 0  # list index
-        while i < len(self.nested_store) and nr + len(self.nested_store[i]) <= idx:
-            nr += len(self.nested_store[i])
+        while i < len(self._nested_store) and nr + len(self._nested_store[i]) <= idx:
+            nr += len(self._nested_store[i])
             i = i + 1
         j = idx - nr  # element from the ith list
         return i, j
 
     def __setitem__(self, idx, val):
         i, j = self.__get_complex_index(idx)
-        self.nested_store[i][j] = val
+        self._nested_store[i][j] = val
 
     def __getitem__(self, idx):
         i, j = self.__get_complex_index(idx)
-        return self.nested_store[i][j]
+        return self._nested_store[i][j]
 
     def __str__(self):
-        return str(self.nested_store)
+        return str(self._nested_store)
 
     def __repr__(self):
-        return f"<class '{AgentSet.__name__}'>"
+        return f"<class '{_AgentSet.__name__}'>"
 
     def __iter__(self):
-        return iter([agent for agents in self.nested_store for agent in agents])
+        return iter([agent for agents in self._nested_store for agent in agents])
 
     def __len__(self):
-        return len([agent for agents in self.nested_store for agent in agents])
+        return len([agent for agents in self._nested_store for agent in agents])

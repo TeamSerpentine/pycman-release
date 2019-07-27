@@ -2,14 +2,13 @@ import pycman
 import random
 import numpy as np
 from collections import deque
-from pycman.core.agent.agent import Agent
 from keras.models import Sequential
 from keras.engine.training import Model
 from keras.layers import Dense, Activation
 from keras.optimizers import Adam
 
 
-class CartPoleAgent(Agent):
+class CartPoleAgent(pycman.AgentBase):
     def __init__(self, env):
         # variables
         self.memory = deque(maxlen=2000)

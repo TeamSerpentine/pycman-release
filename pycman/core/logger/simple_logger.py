@@ -1,5 +1,5 @@
 
-class Log:
+class _Log:
 
     _line_log = None
     _game_log = None

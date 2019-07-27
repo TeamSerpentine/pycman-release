@@ -7,7 +7,7 @@
 """
 
 import unittest
-from pycman.core.logger.simple_logger import Log
+from pycman.core.logger.simple_logger import _Log
 import inspect
 import os
 
@@ -15,10 +15,10 @@ import os
 class TestLogger(unittest.TestCase):
 
     def test_constructor(self):
-        Log(None, inspect.stack()[0][3])
+        _Log(None, inspect.stack()[0][3])
 
     def test_close(self):
-        log = Log(None, inspect.stack()[0][3])
+        log = _Log(None, inspect.stack()[0][3])
         log.close()
 
     def test_writing_lines(self):
@@ -30,7 +30,7 @@ class TestLogger(unittest.TestCase):
         if os.path.exists(file_name + '.csv'):
             os.remove(file_name + '.csv')
 
-        log = Log(None, file_name)
+        log = _Log(None, file_name)
         log.line(a, 1, 2, 3, 4, 'Hello')
         log.line(a, 1, 2, 4, 'Hello')
         log.close()

@@ -23,7 +23,6 @@ if __name__ == "__main__":
 
     #pycman.log.line("First Line!")
     pycman.env.gym("Breakout-v0")
-
     # agent = [AdvancedAgent(0)]
     # pycman.agent.add(agent)
     # pycman.run(order='parallel')

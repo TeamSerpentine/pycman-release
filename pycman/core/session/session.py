@@ -42,14 +42,13 @@ class SelectedEnv:
         return self._environment
 
     def info(self):
-        return self._environment.info
+        return self._environment.info()
 
 
 class AgentSet:
     """ Global collection of agent instances. """
 
     def __init__(self):
-        self.store = []
         self.nested_store = []
 
     def add(self, item):
@@ -58,7 +57,6 @@ class AgentSet:
         self.nested_store.append(item)
 
     def clear(self):
-        self.store = []
         self.nested_store = []
 
     def __get_complex_index(self, idx):
@@ -79,7 +77,7 @@ class AgentSet:
         return self.nested_store[i][j]
 
     def __str__(self):
-        return str(self.store)
+        return str(self.nested_store)
 
     def __repr__(self):
         return f"<class '{AgentSet.__name__}'>"

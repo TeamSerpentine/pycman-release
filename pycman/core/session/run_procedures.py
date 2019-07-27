@@ -25,6 +25,7 @@ def _run_parallel(agents, env):
 
     with Pool(len(agents)) as p:
         result = p.map(_start_worker, args)
+        p.close()
 
     print(agents)
     for idx, a in enumerate(result):
@@ -33,6 +34,9 @@ def _run_parallel(agents, env):
 
 
 def _start_worker(info):
+    info[0].part_of_parallel_pool = True
     info[0].run(info[1])
     info[1].close()
+    info[0].parallel_logger_close()
+    info[0].part_of_parallel_pool = False
     return info[0]

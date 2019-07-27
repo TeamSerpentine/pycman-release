@@ -2,13 +2,15 @@ from ..env.env_gym import _GymWrapper
 from pycman.core.utils.decorators import _timer
 from pycman.core.session.run_procedures import _run_parallel, _run_sequential, _run_single
 from pycman.core.logger.simple_logger import Log
+import pycman
 
 
 class _Session:
 
-    def __init__(self, agents, env):
+    def __init__(self, agents, env, log):
         self.agents = agents
         self.env = env
+        self.log = log
         pass
 
     @_timer

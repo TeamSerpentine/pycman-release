@@ -10,6 +10,7 @@ import unittest
 import pycman
 from pycman.core.agent.agent import Agent
 
+
 class EmptyAgent(Agent):
 
     def __init__(self):
@@ -46,7 +47,7 @@ class TestAgent(unittest.TestCase):
         assert (len(pycman.agent) == 10)
 
     def test_play_game(self):
-        """" Run a game and see if it actually finishes. """
+        """" Run a game and see if it actually finishes all of them. """
         reset()
 
         agents = [EmptyAgent()]
@@ -58,7 +59,7 @@ class TestAgent(unittest.TestCase):
         assert pycman.agent[0].games_played == 3
 
     def test_play_game_multi(self):
-        """" Run a game and see if it actually finishes. """
+        """" Run a game with multiple agents in parallel and check if it finishes them all. """
         reset()
 
         agents = [EmptyAgent() for _ in range(4)]
@@ -76,7 +77,7 @@ class TestAgent(unittest.TestCase):
             assert a.games_played == 3
 
     def test_play_game_sequential(self):
-        """" Run a game and see if it actually finishes. """
+        """" Run a game with multiple agents sequentially and check if it finishes them all. """
         reset()
 
         agents = [EmptyAgent() for _ in range(4)]
@@ -89,7 +90,7 @@ class TestAgent(unittest.TestCase):
             assert a.games_played == 3
 
     def test_agent_references_sequential(self):
-        """" Run a game and see if it actually finishes. """
+        """" Run a game with multiple agents sequentially and check if the references stay correct. """
         reset()
 
         agents = [EmptyAgent() for _ in range(4)]
@@ -101,7 +102,7 @@ class TestAgent(unittest.TestCase):
             assert a is b
 
     def test_agent_references_multi(self):
-        """" Run a game and see if it actually finishes. """
+        """" Run a game with multiple agents in parallel and check if the references stay correct. """
         reset()
 
         agents = [EmptyAgent() for _ in range(4)]

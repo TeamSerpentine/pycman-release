@@ -7,10 +7,12 @@
 """
 
 import unittest
+from pycman.core.session.session import AgentSet
 
 
-class TestStatistics(unittest.TestCase):
+class TestPycmanEnv(unittest.TestCase):
     pass
+    # TODO: Needs tests.
 
 
 if __name__ == "__main__":

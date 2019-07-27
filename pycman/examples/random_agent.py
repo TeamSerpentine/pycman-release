@@ -22,7 +22,6 @@ class RandomAgent(pycman.AgentBase):
 
 
 if __name__ == "__main__":
-
     agents = [RandomAgent() for _ in range(8)]
     pycman.env.gym("Breakout-v0")
     pycman.agent.add(agents)

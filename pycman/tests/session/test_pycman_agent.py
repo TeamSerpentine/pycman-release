@@ -7,7 +7,7 @@
 """
 
 import unittest
-from pycman.core.session._session import _AgentSet
+from pycman.core.session.session import _AgentSet
 
 
 class TestAgentSet(unittest.TestCase):

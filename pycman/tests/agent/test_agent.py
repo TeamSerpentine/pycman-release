@@ -28,7 +28,6 @@ class EmptyAgent(AgentBase):
 
 
 def reset():
-    pycman.env.clear()
     pycman.agent.clear()
 
 

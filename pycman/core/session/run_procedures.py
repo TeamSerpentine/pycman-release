@@ -2,6 +2,11 @@ from copy import deepcopy
 from multiprocessing import Pool
 
 
+def _run_single(agents, env):
+    agents[0].run(env.get())
+    env.get().close()
+
+
 def _run_sequential(agents, env):
     envs = [deepcopy(env.get()) for _ in agents]
 
@@ -29,4 +34,5 @@ def _run_parallel(agents, env):
 
 def _start_worker(info):
     info[0].run(info[1])
+    info[1].close()
     return info[0]

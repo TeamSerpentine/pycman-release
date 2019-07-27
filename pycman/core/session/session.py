@@ -1,7 +1,8 @@
 from ..env.env_gym import _GymWrapper
 from pycman.core.utils.decorators import _timer
-from pycman.core.session.run_procedures import _run_parallel, _run_sequential
+from pycman.core.session.run_procedures import _run_parallel, _run_sequential, _run_single
 from pycman.core.logger.simple_logger import Log
+
 
 class _Session:
 
@@ -13,6 +14,15 @@ class _Session:
     @_timer
     def run(self, order='sequential'):
         """"Start running the agent with a particular environment. Can use different processing techniques."""
+        print("Start simulation with ", len(self.agents))
+        if len(self.agents) == 0:
+            raise RuntimeError("No agent has been specified. Add an agent with pycman.agent.add([your_agent_instance])")
+        if self.env.get() is None:
+            raise RuntimeError("No environment has been specified. Add an enviroment with pycman.env.set(your_env)"
+                               " or with pycman.env.gym(env_name)")
+
+        if len(self.agents) == 1:
+            _run_single(self.agents, self.env)
 
         if order == 'sequential':
             _run_sequential(self.agents, self.env)
@@ -62,7 +72,7 @@ class _AgentSet:
         if not isinstance(item, list):
             raise TypeError("Agent must be contained inside a list!")
         self._nested_store.append(item)
-        new_indices = [len(self)+i for i in range(len(item))]
+        new_indices = [len(self) + i for i in range(len(item))]
         self._nested_indices.append(new_indices)
 
     def clear(self):

@@ -1,7 +1,7 @@
 from ..env.env_gym import _GymWrapper
 from pycman.core.utils.decorators import _timer
 from pycman.core.session.run_procedures import _run_parallel, _run_sequential
-from pycman.core.logging.simple_logger import Log
+from pycman.core.logger.simple_logger import Log
 
 class _Session:
 

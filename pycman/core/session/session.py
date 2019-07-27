@@ -25,11 +25,12 @@ class _Session:
 
         if len(self.agents) == 1:
             _run_single(self.agents, self.env)
-
-        if order == 'sequential':
+        elif order == 'sequential':
             _run_sequential(self.agents, self.env)
-        else:
+        elif order == 'parallel':
             _run_parallel(self.agents, self.env)
+        else:
+            raise ValueError(order + " is not a valid procedure to run pycman! Please select one from the docs!")
 
 
 class _SelectedEnv:

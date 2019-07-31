@@ -1,22 +1,12 @@
-"""
-    Date created: 2019/03/15
-    Python Version: 3.7
-    License: MIT License
-
-    Take a look at the pycman repository or the MIT license for more information on the use and reuse of pycman.
-"""
-
 import difflib
 import gym
 import numpy as np
 
-import pycman
-
 from collections import namedtuple
-from pycman.core.env import Env
+from pycman.core.env import EnvBase
 
 
-class GymWrapper(Env):
+class _GymWrapper(EnvBase):
     """ Handles the call to gym and stores all the variables.
 
         Parameters
@@ -37,7 +27,6 @@ class GymWrapper(Env):
                              format('\n '.join(map(str, alternatives))))
 
         self._env = gym.make(game_name)
-        self.logger = pycman.logger.game
 
         # Store environment variables
         self.game_name = game_name
@@ -101,10 +90,6 @@ class GymWrapper(Env):
 
         self.action_distribution[self.action] += 1
         self.total_reward += reward
-
-        if done:
-            self.logger.add(dict(reward=self.total_reward, action=self.action_distribution.tolist()))
-            self.logger.log.info(self.logger.json())
 
         return obs, reward, done, info
 

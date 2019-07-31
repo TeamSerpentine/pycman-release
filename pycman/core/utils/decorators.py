@@ -3,7 +3,7 @@ import time
 import functools
 
 
-def timer(function):
+def _timer(function):
     @functools.wraps(function)
     def function_timer(*args, **kwargs):
         t0 = time.time()

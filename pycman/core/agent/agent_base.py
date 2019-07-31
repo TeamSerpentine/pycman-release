@@ -1,17 +1,19 @@
 """ This file contains the functionality required to add agent to the created environments """
 
-import numpy as np
 import pycman
 
 from abc import ABC, abstractmethod
 
 
-class Agent(ABC):
+class AgentBase(ABC):
+
+    part_of_parallel_pool = False
+    agent_id = float('nan')
+
     @abstractmethod
-    def run(self, env, max_thread=1):
+    def run(self, env):
         """ Run the agent on the given environment until completion. """
         pass
 
-    @staticmethod
-    def get_environment_info(env: pycman.env):
-        return env.get_constants()
+    def parallel_logger_close(self):
+        pycman.log.close()

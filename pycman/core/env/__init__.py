@@ -1,6 +1,5 @@
 
-from .env_base import Env
-from .global_env import GlobalEnv
+from .env_base import EnvBase
 
 
-__all__ = ["Env", "GlobalEnv"]
+__all__ = ["EnvBase"]

@@ -5,7 +5,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 
-class Env(ABC):
+class EnvBase(ABC):
     game_name = None
     input_shape = (None,)
     output_shape = (None,)

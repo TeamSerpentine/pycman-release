@@ -1,18 +1,9 @@
-"""
-    Date created: 2019/07/03
-    Python Version: 3.7
-    License: MIT License
-
-    Take a look at the pycman repository or the MIT license for more information on the use and reuse of pycman.
-"""
-
 import unittest
 import pycman
-from pycman.core.agent.agent import Agent
-from pycman.core.agent.global_agents import GlobalAgentSet
+from pycman.core.agent.agent_base import AgentBase
 
 
-class EmptyAgent(Agent):
+class EmptyAgent(AgentBase):
 
     def __init__(self):
         self.games_played = 0
@@ -29,9 +20,7 @@ class EmptyAgent(Agent):
 
 
 def reset():
-    pycman.env = pycman.core.env.global_env.GlobalEnv()
-    pycman.agent = pycman.core.agent.global_agents.GlobalAgentSet()
-    pycman.run = pycman.core.run.run.Run(pycman.agent, pycman.env).run
+    pycman.agent.clear()
 
 
 class TestAgent(unittest.TestCase):
@@ -49,7 +38,7 @@ class TestAgent(unittest.TestCase):
         assert (len(pycman.agent) == 10)
 
     def test_play_game(self):
-        """" Run a game and see if it actually finishes. """
+        """" Run a game and see if it actually finishes all of them. """
         reset()
 
         agents = [EmptyAgent()]
@@ -61,7 +50,7 @@ class TestAgent(unittest.TestCase):
         assert pycman.agent[0].games_played == 3
 
     def test_play_game_multi(self):
-        """" Run a game and see if it actually finishes. """
+        """" Run a game with multiple agents in parallel and check if it finishes them all. """
         reset()
 
         agents = [EmptyAgent() for _ in range(4)]
@@ -79,7 +68,7 @@ class TestAgent(unittest.TestCase):
             assert a.games_played == 3
 
     def test_play_game_sequential(self):
-        """" Run a game and see if it actually finishes. """
+        """" Run a game with multiple agents sequentially and check if it finishes them all. """
         reset()
 
         agents = [EmptyAgent() for _ in range(4)]
@@ -92,7 +81,7 @@ class TestAgent(unittest.TestCase):
             assert a.games_played == 3
 
     def test_agent_references_sequential(self):
-        """" Run a game and see if it actually finishes. """
+        """" Run a game with multiple agents sequentially and check if the references stay correct. """
         reset()
 
         agents = [EmptyAgent() for _ in range(4)]
@@ -104,7 +93,7 @@ class TestAgent(unittest.TestCase):
             assert a is b
 
     def test_agent_references_multi(self):
-        """" Run a game and see if it actually finishes. """
+        """" Run a game with multiple agents in parallel and check if the references stay correct. """
         reset()
 
         agents = [EmptyAgent() for _ in range(4)]

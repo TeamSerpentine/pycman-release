@@ -1,11 +1,3 @@
-"""
-    Date created: 2019/07/03
-    Python Version: 3.7
-    License: MIT License
-
-    Take a look at the pycman repository or the MIT license for more information on the use and reuse of pycman.
-"""
-
 import unittest
 from pycman.core.logger.simple_logger import _Log
 import inspect
@@ -13,6 +5,8 @@ import os
 
 
 class TestLogger(unittest.TestCase):
+
+    # TODO: TEsts for multiple agents (sequential and parallel)
 
     def test_constructor(self):
         _Log(None, inspect.stack()[0][3])

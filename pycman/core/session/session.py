@@ -43,7 +43,7 @@ class _Stat:
     def __init__(self, logger):
         self.logger = logger
 
-    def plot(self, x_col, y_cols, title='', legend=True, grid=True):
+    def plot(self, x_col, y_cols, title='', legend=True, grid=True, group_on_agent=False):
         if self.logger._line_log:
             open_at_end = True
             self.logger.close()
@@ -51,13 +51,14 @@ class _Stat:
             open_at_end = False
 
         data = pd.read_csv(self.logger._last_log, sep=';')
-        plt.title(title)
+
         if x_col in data:
-            if not isinstance(y_cols, list):
-                y_cols = [y_cols]
-            for y in y_cols:
-                if y in data:
-                    plt.plot(data[x_col].tolist(), data[y].tolist(), label=y)
+            plt.title(title)
+            if group_on_agent:
+                for _, group in data.groupby('agent_id'):
+                    self._plot_results(plt, x_col, y_cols, group)
+            else:
+                self._plot_results(plt, x_col, y_cols, data)
             if grid: plt.grid()
             if legend: plt.legend()
             plt.xlabel(x_col)
@@ -67,6 +68,15 @@ class _Stat:
 
         if open_at_end:
             self.logger._open_last()
+
+    def _plot_results(self, plt,  x_col, y_cols, data):
+
+            if not isinstance(y_cols, list):
+                y_cols = [y_cols]
+            for y in y_cols:
+                if y in data:
+                    plt.plot(data[x_col].tolist(), data[y].tolist(), label=y)
+
 
 
 class _SelectedEnv:

@@ -21,9 +21,9 @@ class _Log:
             else:
                 self._line_log = open(self._file_name, "w+")
             self._last_log = self._file_name
-            self._line_log.write(str(caller.agent_id) + ";" + ";".join([str(x) for x in args]) + '\n')
+            self._line_log.write("agent_id;" + ";".join([str(x) for x in args]) + '\n')
         else:
-            raise RuntimeError("ERROR: Can not set the headers if the file is already opened!")
+            Warning("Warning: Can not set the headers if the file is already opened!")
 
     def line(self, caller, *args):
         """Writes data to a single line. """

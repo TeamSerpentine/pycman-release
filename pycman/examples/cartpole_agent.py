@@ -74,11 +74,15 @@ class CartPoleAgent(pycman.AgentBase):
 
 
 if __name__ == "__main__":
+
     # initialize environment
     pycman.env.gym("CartPole-v1")
+
     # initialize agents
-    agents = [CartPoleAgent(pycman.env.get()) for _ in range(1)]
+    agents = [CartPoleAgent(pycman.env.get())]
+
     # add agents
     pycman.agent.add(agents)
+
     # run pycman
     pycman.run()

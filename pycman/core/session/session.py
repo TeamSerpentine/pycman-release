@@ -6,6 +6,7 @@ import pycman
 
 
 class _Session:
+    """""Wrapper for pycman.functions."""
 
     def __init__(self, agents, env, log):
         self.agents = agents
@@ -33,9 +34,19 @@ class _Session:
             raise ValueError(order + " is not a valid procedure to run pycman! Please select one from the docs!")
 
 
+class _Stat:
+
+    def __init__(self):
+        pass
+
+
+
+
+
+
 class _SelectedEnv:
     """ Wrapper for all the different environment wrappers. Global access point for the currently
-        selected environment in Pycman.
+        selected environment in Pycman. The global instance is called with with pycman.env
     """
 
     _environment = None
@@ -64,7 +75,7 @@ class _SelectedEnv:
 
 
 class _AgentSet:
-    """ Global collection of agent instances. """
+    """ Global collection of agent instances. The global instance is called with with pycman.agent"""
 
     def __init__(self):
         self._nested_store = []

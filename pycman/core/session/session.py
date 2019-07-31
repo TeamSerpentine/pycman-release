@@ -3,6 +3,8 @@ from pycman.core.utils.decorators import _timer
 from pycman.core.session.run_procedures import _run_parallel, _run_sequential, _run_single
 from pycman.core.logger.simple_logger import _Log
 import pycman
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 class _Session:
@@ -36,12 +38,35 @@ class _Session:
 
 class _Stat:
 
-    def __init__(self):
-        pass
+    logger = None
 
+    def __init__(self, logger):
+        self.logger = logger
 
+    def plot(self, x_col, y_cols, title='', legend=True, grid=True):
+        if self.logger._line_log:
+            open_at_end = True
+            self.logger.close()
+        else:
+            open_at_end = False
 
+        data = pd.read_csv(self.logger._last_log, sep=';')
+        plt.title(title)
+        if x_col in data:
+            if not isinstance(y_cols, list):
+                y_cols = [y_cols]
+            for y in y_cols:
+                if y in data:
+                    plt.plot(data[x_col].tolist(), data[y].tolist(), label=y)
+            if grid: plt.grid()
+            if legend: plt.legend()
+            plt.xlabel(x_col)
+            plt.show()
+        else:
+            raise ValueError(str(x_col) + ' is not valid column name!')
 
+        if open_at_end:
+            self.logger._open_last()
 
 
 class _SelectedEnv:

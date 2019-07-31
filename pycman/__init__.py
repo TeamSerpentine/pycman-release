@@ -10,7 +10,7 @@ __all__ = ["env", "agent", "run", "EnvBase", "AgentBase"]
 env = _SelectedEnv()
 agent = _AgentSet()
 log = _Log(env, "pycman_log")
-stat = _Stat()
+stat = _Stat(log)
 __session = _Session(agent, env, log)
 
 

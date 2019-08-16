@@ -14,6 +14,3 @@ class AgentBase(ABC):
     def run(self, env):
         """ Run the agent on the given environment until completion. """
         pass
-
-    def parallel_logger_close(self):
-        pycman.log.close()

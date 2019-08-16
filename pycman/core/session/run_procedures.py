@@ -37,6 +37,4 @@ def _start_worker(info):
     info[0].part_of_parallel_pool = True
     info[0].run(info[1])
     info[1].close()
-    info[0].parallel_logger_close()
-    info[0].part_of_parallel_pool = False
     return info[0]

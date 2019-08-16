@@ -29,9 +29,6 @@ class AdvancedAgent(pycman.AgentBase):
         # Plot games_played against rewards. Group per agent. (This uses the header previously set)
         pycman.stat.plot('games_played', 'rewards', group_on_agent=True)
 
-        # Close the log file
-        pycman.log.close()
-
 
 if __name__ == "__main__":
 

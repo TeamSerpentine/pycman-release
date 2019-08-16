@@ -1,10 +1,7 @@
+import os
+
 
 class _Log:
-
-    _line_log = None
-    _last_log = None
-    # _parallel_mode = False
-
     def __init__(self, env, _file_name: str, id=None):
         self._env = env # TODO: Use for future logging improvements!
 
@@ -15,15 +12,11 @@ class _Log:
 
     def set_header(self, caller, *args):
         """"Sets the header names. """
-        if self._line_log is None:
-            if self._last_log == self._file_name:
-                self._line_log = open(self._file_name, "a+")
-            else:
-                self._line_log = open(self._file_name, "a+")
-            self._last_log = self._file_name
-            self._line_log.write("agent_id;" + ";".join([str(x) for x in args]) + '\n')
+        if os.path.isfile(self._file_name):
+            with open(self._file_name, "a+") as log_file:
+                log_file.write("agent_id;" + ";".join([str(x) for x in args]) + '\n')
         else:
-            Warning("Warning: Can not set the headers if the file is already opened!")
+            Warning("Warning: Can not set the headers because the file already exists!")
 
     def line(self, caller, *args):
         """Writes data to a single line. """
@@ -31,19 +24,8 @@ class _Log:
             self._parallel_line(caller, *args)
             return
 
-        if self._line_log is None:
-            if self._last_log == self._file_name:
-                self._line_log = open(self._file_name, "a+")
-            else:
-                self._line_log = open(self._file_name, "a+")
-            self._last_log = self._file_name
-
-        self._line_log.write(str(caller.agent_id)+";"+";".join([str(x) for x in args])+'\n')
-
-    def close(self):
-        if self._line_log is not None:
-            self._line_log.close()
-            self._line_log = None
+        with open(self._file_name, "a+") as log_file:
+            log_file.write(str(caller.agent_id) + ";" + ";".join([str(x) for x in args]) + '\n')
 
     def _open_last(self):
         self._line_log = open(self._file_name, "a+")
@@ -54,14 +36,8 @@ class _Log:
         # if caller is None:
         #     raise AttributeError("One must specify the calling agent (caller=None) when performing a parallel run.")
 
-        if self._line_log is None:
-            if self._last_log == self._file_name:
-                self._line_log = open(self._file_name[:-4] + str(id(caller)) + '.csv', "a+")
-            else:
-                self._line_log = open(self._file_name[:-4] + str(id(caller)) + '.csv', "a+")
-            self._last_log = self._file_name
-
-        self._line_log.write(str(caller.agent_id)+";"+";".join([str(x) for x in args])+'\n')
+        with open(self._file_name[:-4] + str(id(caller)) + '.csv', "a+") as log_file:
+            log_file.write(str(caller.agent_id)+";"+";".join([str(x) for x in args])+'\n')
 
 
 # class ParallelLog():

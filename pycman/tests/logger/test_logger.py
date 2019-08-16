@@ -11,10 +11,6 @@ class TestLogger(unittest.TestCase):
     def test_constructor(self):
         _Log(None, inspect.stack()[0][3])
 
-    def test_close(self):
-        log = _Log(None, inspect.stack()[0][3])
-        log.close()
-
     def test_writing_lines(self):
         a = type('AgentBase', (), {})()
         a.part_of_parallel_pool = False
@@ -27,7 +23,6 @@ class TestLogger(unittest.TestCase):
         log = _Log(None, file_name)
         log.line(a, 1, 2, 3, 4, 'Hello')
         log.line(a, 1, 2, 4, 'Hello')
-        log.close()
 
         file = open(file_name + '.csv')
         lines = [line for line in file]

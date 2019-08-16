@@ -19,7 +19,7 @@ class _Log:
             if self._last_log == self._file_name:
                 self._line_log = open(self._file_name, "a+")
             else:
-                self._line_log = open(self._file_name, "w+")
+                self._line_log = open(self._file_name, "a+")
             self._last_log = self._file_name
             self._line_log.write("agent_id;" + ";".join([str(x) for x in args]) + '\n')
         else:
@@ -35,7 +35,7 @@ class _Log:
             if self._last_log == self._file_name:
                 self._line_log = open(self._file_name, "a+")
             else:
-                self._line_log = open(self._file_name, "w+")
+                self._line_log = open(self._file_name, "a+")
             self._last_log = self._file_name
 
         self._line_log.write(str(caller.agent_id)+";"+";".join([str(x) for x in args])+'\n')
@@ -58,7 +58,7 @@ class _Log:
             if self._last_log == self._file_name:
                 self._line_log = open(self._file_name[:-4] + str(id(caller)) + '.csv', "a+")
             else:
-                self._line_log = open(self._file_name[:-4] + str(id(caller)) + '.csv', "w+")
+                self._line_log = open(self._file_name[:-4] + str(id(caller)) + '.csv', "a+")
             self._last_log = self._file_name
 
         self._line_log.write(str(caller.agent_id)+";"+";".join([str(x) for x in args])+'\n')

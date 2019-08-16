@@ -2,6 +2,8 @@ import os
 
 
 class _Log:
+    """Logging class for pycman. It exists in a global namespace."""
+
     def __init__(self, env, _file_name: str, id=None):
         self._env = env # TODO: Use for future logging improvements!
 

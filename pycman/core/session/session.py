@@ -37,20 +37,13 @@ class _Session:
 
 
 class _Stat:
-
     logger = None
 
     def __init__(self, logger):
         self.logger = logger
 
     def plot(self, x_col, y_cols, title='', legend=True, grid=True, group_on_agent=False):
-        if self.logger._line_log:
-            open_at_end = True
-            self.logger.close()
-        else:
-            open_at_end = False
-
-        data = pd.read_csv(self.logger._last_log, sep=';')
+        data = pd.read_csv(self.logger._file_name, sep=';')
 
         if x_col in data:
             plt.title(title)
@@ -66,17 +59,13 @@ class _Stat:
         else:
             raise ValueError(str(x_col) + ' is not valid column name!')
 
-        if open_at_end:
-            self.logger._open_last()
+    def _plot_results(self, plt, x_col, y_cols, data):
 
-    def _plot_results(self, plt,  x_col, y_cols, data):
-
-            if not isinstance(y_cols, list):
-                y_cols = [y_cols]
-            for y in y_cols:
-                if y in data:
-                    plt.plot(data[x_col].tolist(), data[y].tolist(), label=y)
-
+        if not isinstance(y_cols, list):
+            y_cols = [y_cols]
+        for y in y_cols:
+            if y in data:
+                plt.plot(data[x_col].tolist(), data[y].tolist(), label=y)
 
 
 class _SelectedEnv:

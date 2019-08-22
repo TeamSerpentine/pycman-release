@@ -14,11 +14,11 @@ class _Log:
 
     def set_header(self, caller, *args):
         """"Sets the header names. """
-        if os.path.isfile(self._file_name):
+        if not os.path.isfile(self._file_name):
             with open(self._file_name, "a+") as log_file:
                 log_file.write("agent_id;" + ";".join([str(x) for x in args]) + '\n')
         else:
-            Warning("Warning: Can not set the headers because the file already exists!")
+            print("Warning: Can not set the headers because the file already exists!")
 
     def line(self, caller, *args):
         """Writes data to a single line. """
